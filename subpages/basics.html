@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Basics - TeachMe Anatomy</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <!-- <header>
+        <div class="header-top">
+            <div class="logo-section">
+                <a href="../index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                    <div class="logo">
+                        <img src="../images/logo-icon.png" alt="TeachMe Anatomy Logo">
+                    </div>
+                    <div class="logo-text">
+                        <h1>
+                            <span>TeachMe</span>
+                            <span>Anatomy</span>
+                        </h1>
+                    </div>
+                </a>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search the website">
+                </div>
+            </div>
+
+            <div class="header-links">
+    <a href="#">Spotter</a>
+    <a href="#">Question Bank</a>
+    <a href="#">Flashcards</a>
+    <a href="#">Pricing</a>
+    
+    <!-- ETA ADD KORO -->
+    <!-- <div id="authButtons">
+        <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
+    </div>
+</div>
+
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="basics.html" class="active">The Basics</a></li>
+                <li><a href="head.html">Head</a></li> -->
+                <!-- <li><a href="neuroanatomy.html">Neuroanatomy</a></li>
+                <li><a href="neck.html">Neck</a></li>
+                <li><a href="thorax.html">Thorax</a></li>
+                <li><a href="back.html">Back</a></li>
+                <li><a href="upper-limb.html">Upper Limb</a></li>
+                <li><a href="lower-limb.html">Lower Limb</a></li>
+                <li><a href="abdomen.html">Abdomen</a></li>
+                <li><a href="pelvis.html">Pelvis</a></li>
+                <li><a href="3d-body.html">3D Body</a></li>
+            </ul>
+        </nav>
+    </header> --> -->
+
+   
+    <!-- Header Section -->
+<header>
+    <div class="header-top">
+        <div class="logo-section">
+            <a href="index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <div class="logo">
+                    <img src="images/logo-icon.png" alt="TeachMe Anatomy Logo">
+                </div>
+                <div class="logo-text">
+                    <h1>
+                        <span>TeachMe</span>
+                        <span>Anatomy</span>
+                    </h1>
+                </div>
+            </a>
+        </div>
+
+        <div class="search-bar">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search the website">
+            </div>
+        </div>
+
+        <div class="header-links">
+            <a href="#">Spotter</a>
+            <a href="#">Question Bank</a>
+            <a href="#">Flashcards</a>
+            <a href="#">Pricing</a>
+
+            <!-- Auth Buttons (Dynamic) -->
+            <div id="authButtons">
+                <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-menu">
+        <ul>
+            <li><a href="subpages/basics.html">The Basics</a></li>
+            <li><a href="subpages/head.html">Head</a></li>
+            <li><a href="subpages/neuroanatomy.html">Neuroanatomy</a></li>
+            <li><a href="subpages/neck.html">Neck</a></li>
+            <li><a href="subpages/thorax.html">Thorax</a></li>
+            <li><a href="subpages/back.html">Back</a></li>
+            <li><a href="subpages/upper-limb.html">Upper Limb</a></li>
+            <li><a href="subpages/lower-limb.html">Lower Limb</a></li>
+            <li><a href="subpages/abdomen.html">Abdomen</a></li>
+            <li><a href="subpages/pelvis.html">Pelvis</a></li>
+            <li><a href="subpages/3d-body.html">3D Body</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<!-- EI 2 TA MODAL ADD KORO -->
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <h2>Login to Your Account</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit" class="auth-submit-btn">Login</button>
+        </form>
+        <p id="loginMessage" class="auth-message"></p>
+        <p class="switch-auth">Don't have an account? <a href="#" onclick="switchToRegister()">Register</a></p>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRegisterModal()">&times;</span>
+        <h2>Create New Account</h2>
+        <form id="registerForm">
+            <input type="text" id="registerName" placeholder="Full Name" required>
+            <input type="email" id="registerEmail" placeholder="Email" required>
+            <input type="password" id="registerPassword" placeholder="Password (min 6 characters)" required>
+            <button type="submit" class="auth-submit-btn">Register</button>
+        </form>
+        <p id="registerMessage" class="auth-message"></p>
+        <p class="switch-auth">Already have an account? <a href="#" onclick="switchToLogin()">Login</a></p>
+    </div>
+</div>
+
+<!-- Page Title Section -->  ← Erpor page continue hobe
+
+    <!-- Page Title Section -->
+    <section class="page-title-section">
+        <div class="container">
+            <h1>The Basics</h1>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="overview-section">
+        <div class="container">
+            <h2>Overview</h2>
+            <p>The fundamentals of human anatomy underpin every area of medical education and clinical practice. This section provides a structured introduction to the key concepts required to study the body effectively, including anatomical terminology, planes, movements and positional terms.</p>
+            
+            <div class="expandable-text">
+                <h2>Key Structures</h2>
+                <p>Within this section, you'll explore the core building blocks of the body – the tissues, organs and systems that form its foundation. Articles cover connective tissue, cartilage, bone and muscle, as well as joint classification and movement principles.</p>
+                
+                <h2>Clinical Relevance and Learning Focus</h2>
+                <p>A strong grasp of the basics supports accurate clinical reasoning, communication and examination skills. The content in this section provides the essential anatomical framework used to interpret pathology, understand surgical approaches and explain imaging findings.</p>
+                
+                <p class="read-less-link"><a href="javascript:void(0)">- Read less</a></p>
+            </div>
+            
+            <p class="read-more-link"><a href="javascript:void(0)">+ Read more</a></p>
+        </div>
+    </section>
+
+    <!-- Topics Grid Section -->
+    <section class="topics-grid-section">
+        <div class="container">
+            <div class="topics-two-column">
+                <!-- Learning Anatomy -->
+                <div class="topic-category">
+                    <div class="category-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="25" cy="15" r="6" stroke="#00d4aa" stroke-width="2" fill="none"/>
+                            <path d="M25 22 L25 42 M18 28 L25 28 L32 28 M18 38 L25 38 L32 38" stroke="#00d4aa" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Learning Anatomy</h3>
+                    <ul class="topic-list">
+                        <li><a href="#">Organs</a></li>
+                        <li><a href="#">Vascular System</a></li>
+                        <li><a href="#">+4 more</a></li>
+                    </ul>
+                </div>
+
+                <!-- Anatomical Terms -->
+                <div class="topic-category">
+                    <div class="category-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M25 10 Q30 15 25 20 Q20 15 25 10" stroke="#00d4aa" stroke-width="2" fill="none"/>
+                            <ellipse cx="25" cy="30" rx="12" ry="8" stroke="#00d4aa" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3>Anatomical Terms</h3>
+                    <ul class="topic-list">
+                        <li><a href="#">Terms of Location in Embryology</a></li>
+                        <li><a href="#">Anatomical Terms of Movement</a></li>
+                        <li><a href="#">+3 more</a></li>
+                    </ul>
+                </div>
+
+                <!-- Joints -->
+                <div class="topic-category">
+                    <div class="category-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="25" cy="25" r="8" stroke="#00d4aa" stroke-width="2" fill="none"/>
+                            <line x1="25" y1="10" x2="25" y2="17" stroke="#00d4aa" stroke-width="2.5" stroke-linecap="round"/>
+                            <line x1="25" y1="33" x2="25" y2="40" stroke="#00d4aa" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Joints</h3>
+                    <ul class="topic-list">
+                        <li><a href="#">Classification of Joints</a></li>
+                        <li><a href="#">Joint Stability</a></li>
+                        <li><a href="#">+1 more</a></li>
+                    </ul>
+                </div>
+
+                <!-- Body Systems -->
+                <div class="topic-category">
+                    <div class="category-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M25 10 L25 20 M15 20 L35 20 M15 25 L35 25 M15 30 L35 30 M15 35 L35 35" stroke="#00d4aa" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Body Systems</h3>
+                    <ul class="topic-list">
+                        <li><a href="#">The Sympathetic Nervous System</a></li>
+                        <li><a href="#">The Parasympathetic Nervous System</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tissue Ultrastructure -->
+                <div class="topic-category">
+                    <div class="category-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="15" y="15" width="20" height="20" rx="3" stroke="#00d4aa" stroke-width="2" fill="none"/>
+                            <circle cx="25" cy="22" r="3" fill="#00d4aa"/>
+                            <circle cx="20" cy="28" r="2" fill="#00d4aa"/>
+                            <circle cx="30" cy="28" r="2" fill="#00d4aa"/>
+                        </svg>
+                    </div>
+                    <h3>Tissue Ultrastructure</h3>
+                    <ul class="topic-list">
+                        <li><a href="#">The Hair Follicle</a></li>
+                        <li><a href="#">Ultrastructure of Skin</a></li>
+                        <li><a href="#">+5 more</a></li>
+                    </ul>
+                </div>
+
+                <!-- Embryology -->
+                <div class="topic-category">
+                    <div class="category-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="25" cy="28" rx="10" ry="15" stroke="#00d4aa" stroke-width="2" fill="none"/>
+                            <circle cx="25" cy="20" r="3" fill="#00d4aa"/>
+                            <circle cx="20" cy="28" r="2" fill="#00d4aa"/>
+                            <circle cx="30" cy="28" r="2" fill="#00d4aa"/>
+                        </svg>
+                    </div>
+                    <h3>Embryology</h3>
+                    <ul class="topic-list">
+                        <li><a href="#">The Pituitary, Tongue and Thyroid</a></li>
+                        <li><a href="#">The Face and Palate</a></li>
+                        <li><a href="#">+12 more</a></li>
+                    </ul>
+                </div>
+
+                <!-- Imaging Modalities -->
+                <div class="topic-category">
+                    <div class="category-icon">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="12" y="15" width="26" height="20" rx="2" stroke="#00d4aa" stroke-width="2" fill="none"/>
+                            <path d="M20 22 L20 28 M23 22 L23 28 M26 22 L26 28 M29 22 L29 28" stroke="#00d4aa" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3>Imaging Modalities</h3>
+                    <ul class="topic-list">
+                        <li><a href="#">Plain Film X-Ray</a></li>
+                        <li><a href="#">Computed Tomography (CT) Scanning</a></li>
+                        <li><a href="#">+1 more</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Section -->
+    <section class="popular-section">
+        <div class="container">
+            <h2>Popular</h2>
+            
+            <div class="popular-grid">
+                <article class="popular-card">
+                    <div class="popular-image">
+                        <svg width="100%" height="100%" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="250" fill="#f0f0f0"/>
+                            <text x="200" y="125" text-anchor="middle" fill="#999" font-size="16">Anatomical Illustration</text>
+                        </svg>
+                    </div>
+                    <div class="popular-content">
+                        <p class="popular-category">ENCYCLOPAEDIA</p>
+                        <h3>Great Auricular Nerve</h3>
+                        <p class="popular-author">by Amber Kraczkowska</p>
+                    </div>
+                </article>
+
+                <article class="popular-card">
+                    <div class="popular-image">
+                        <svg width="100%" height="100%" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="250" fill="#f0f0f0"/>
+                            <text x="200" y="125" text-anchor="middle" fill="#999" font-size="16">Anatomical Illustration</text>
+                        </svg>
+                    </div>
+                    <div class="popular-content">
+                        <p class="popular-category">ENCYCLOPAEDIA</p>
+                        <h3>Inferior Rectal Nerve</h3>
+                        <p class="popular-author">by Muhammed Owais Patel</p>
+                    </div>
+                </article>
+
+                <article class="popular-card">
+                    <div class="popular-image">
+                        <svg width="100%" height="100%" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="250" fill="#f0f0f0"/>
+                            <text x="200" y="125" text-anchor="middle" fill="#999" font-size="16">Anatomical Illustration</text>
+                        </svg>
+                    </div>
+                    <div class="popular-content">
+                        <p class="popular-category">ENCYCLOPAEDIA</p>
+                        <h3>Posterior Cutaneous Nerve of the Thigh</h3>
+                        <p class="popular-author">by Mihir Himanshu Majeethia</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>TeachMe Anatomy</h4>
+                <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Student Resources</a></li>
+                    <li><a href="#">Educator Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="#"><img src="../images/icon-facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="../images/icon-twitter.png" alt="Twitter"></a>
+                    <a href="#"><img src="../images/icon-instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="../images/icon-linkedin.png" alt="LinkedIn"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+      
+
+    
+                
+               <script>
+// API Configuration
+const API_URL = 'http://localhost:5000/api';
+
+// Check Authentication + Read More Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuthStatus();
+    initializeReadMore();
+});
+
+// Check if user logged in
+async function checkAuthStatus() {
+    const token = localStorage.getItem('token');
+    const authButtons = document.getElementById('authButtons');
+
+    if (token) {
+        try {
+            const response = await fetch(`${API_URL}/auth/me`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const user = data.data.user;
+                authButtons.innerHTML = `
+                    <span style="color: white; margin-right: 15px; font-size: 15px;">
+                        👋 Welcome, ${user.name}
+                    </span>
+                    <a href="#" onclick="logout()" class="login-btn">Logout</a>
+                `;
+            } else {
+                showLoginButton();
+            }
+        } catch (error) {
+            showLoginButton();
+        }
+    } else {
+        showLoginButton();
+    }
+}
+
+function showLoginButton() {
+    document.getElementById('authButtons').innerHTML = '<a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>';
+}
+
+// Modal Functions
+function openLoginModal() {
+    document.getElementById('loginModal').style.display = 'block';
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('loginForm').reset();
+    document.getElementById('loginMessage').textContent = '';
+}
+
+function openRegisterModal() {
+    document.getElementById('registerModal').style.display = 'block';
+}
+
+function closeRegisterModal() {
+    document.getElementById('registerModal').style.display = 'none';
+    document.getElementById('registerForm').reset();
+    document.getElementById('registerMessage').textContent = '';
+}
+
+function switchToRegister() {
+    closeLoginModal();
+    openRegisterModal();
+}
+
+function switchToLogin() {
+    closeRegisterModal();
+    openLoginModal();
+}
+
+window.onclick = (event) => {
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+    if (event.target == loginModal) closeLoginModal();
+    if (event.target == registerModal) closeRegisterModal();
+};
+
+// Login Form Submit
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const messageEl = document.getElementById('loginMessage');
+    const submitBtn = e.target.querySelector('button');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Logging in...';
+    messageEl.textContent = '';
+
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            messageEl.style.color = '#10b981';
+            messageEl.textContent = '✅ Login successful!';
+            
+            localStorage.setItem('token', data.data.token);
+            localStorage.setItem('user', JSON.stringify(data.data.user));
+            
+            setTimeout(() => {
+                closeLoginModal();
+                location.reload();
+            }, 1000);
+        } else {
+            messageEl.style.color = '#ef4444';
+            messageEl.textContent = '❌ ' + (data.message || 'Login failed');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Login';
+        }
+    } catch (error) {
+        messageEl.style.color = '#ef4444';
+        messageEl.textContent = '❌ Cannot connect to server';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Login';
+    }
+});
+
+// Register Form Submit
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('registerName').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    const messageEl = document.getElementById('registerMessage');
+    const submitBtn = e.target.querySelector('button');
+
+    if (password.length < 6) {
+        messageEl.style.color = '#ef4444';
+        messageEl.textContent = '❌ Password must be 6+ characters';
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating account...';
+    messageEl.textContent = '';
+
+    try {
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            messageEl.style.color = '#10b981';
+            messageEl.textContent = '✅ Account created!';
+            
+            localStorage.setItem('token', data.data.token);
+            localStorage.setItem('user', JSON.stringify(data.data.user));
+            
+            setTimeout(() => {
+                closeRegisterModal();
+                location.reload();
+            }, 1000);
+        } else {
+            messageEl.style.color = '#ef4444';
+            messageEl.textContent = '❌ ' + (data.message || 'Registration failed');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Register';
+        }
+    } catch (error) {
+        messageEl.style.color = '#ef4444';
+        messageEl.textContent = '❌ Cannot connect to server';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Register';
+    }
+});
+
+// Logout
+function logout() {
+    if (confirm('Logout?')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        alert('✅ Logged out!');
+        location.reload();
+    }
+}
+
+// Read More/Less
+function initializeReadMore() {
+    const expandableText = document.querySelector('.expandable-text');
+    const readMoreLink = document.querySelector('.read-more-link');
+    const readLessLink = document.querySelector('.read-less-link');
+    
+    if (expandableText && readMoreLink && readLessLink) {
+        expandableText.style.display = 'none';
+        
+        readMoreLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            expandableText.style.display = 'block';
+            readMoreLink.style.display = 'none';
+            expandableText.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        readLessLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            expandableText.style.display = 'none';
+            readMoreLink.style.display = 'block';
+            document.querySelector('.overview-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+}
+</script>
+</body>
+</html>
+</body>
+</html>
