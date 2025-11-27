@@ -9,13 +9,15 @@ const API_URL = 'http://localhost:5000/api';
 function toggleTopics() {
     const additionalTopics = document.getElementById('additionalTopics');
     const viewAllBtn = document.getElementById('viewAllBtn');
-    
+
     if (additionalTopics.classList.contains('hidden')) {
         additionalTopics.classList.remove('hidden');
+        additionalTopics.style.display = 'grid';
         viewAllBtn.textContent = 'Show less ↑';
         additionalTopics.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
         additionalTopics.classList.add('hidden');
+        additionalTopics.style.display = 'none';
         viewAllBtn.textContent = 'View all →';
         document.getElementById('initialTopics').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
@@ -110,7 +112,6 @@ window.onclick = (event) => {
 // ==========================================
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
     const messageEl = document.getElementById('loginMessage');
@@ -126,16 +127,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
-
         const data = await response.json();
 
         if (response.ok) {
             messageEl.style.color = '#10b981';
             messageEl.textContent = '✅ Login successful! Redirecting...';
-            
+
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('user', JSON.stringify(data.data.user));
-            
+
             setTimeout(() => {
                 closeLoginModal();
                 location.reload();
@@ -160,7 +160,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 // ==========================================
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const name = document.getElementById('registerName').value.trim();
     const email = document.getElementById('registerEmail').value.trim();
     const password = document.getElementById('registerPassword').value;
@@ -183,16 +182,15 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, password })
         });
-
         const data = await response.json();
 
         if (response.ok) {
             messageEl.style.color = '#10b981';
-            messageEl.textContent = '✅ Account created successfully!';
-            
+            messageEl.textContent = 'Account created successfully!';
+
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('user', JSON.stringify(data.data.user));
-            
+
             setTimeout(() => {
                 closeRegisterModal();
                 location.reload();
@@ -206,7 +204,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     } catch (error) {
         console.error('Register error:', error);
         messageEl.style.color = '#ef4444';
-        messageEl.textContent = '❌ Cannot connect to server. Please ensure backend is running.';
+        messageEl.textContent = 'Cannot connect to server. Please ensure backend is running.';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Register';
     }
@@ -225,10 +223,11 @@ function logout() {
 }
 
 // ==========================================
-// COMMENTS FUNCTIONALITY
+// COMMENTS FUNCTIONALITY with View All
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', () => {
     const commentForm = document.getElementById('commentForm');
     const commentText = document.getElementById('commentText');
     const charCount = document.getElementById('charCount');
@@ -237,166 +236,130 @@ document.addEventListener('DOMContentLoaded', function() {
     const commentsEmpty = document.getElementById('commentsEmpty');
     const commentCount = document.getElementById('commentCount');
 
-    // Get current page ID from URL
-    const pageId = window.location.pathname.split('/').pop().replace('.html', '') || 'basics';
-
-    // Character counter
-    if (commentText) {
-        commentText.addEventListener('input', function() {
-            charCount.textContent = this.value.length;
-        });
+    // **View All button create dynamically**
+    let viewAllBtn = document.getElementById('viewAllCommentsBtn');
+    if (!viewAllBtn) {
+        viewAllBtn = document.createElement('button');
+        viewAllBtn.id = 'viewAllCommentsBtn';
+        viewAllBtn.style.display = 'none';
+        viewAllBtn.style.marginTop = '10px';
+        viewAllBtn.textContent = 'View All Comments';
+        commentsList.parentNode.appendChild(viewAllBtn);
     }
 
-    // Load comments on page load
+    const pageId = window.location.pathname.split('/').pop().replace('.html', '') || 'basics';
+    let allComments = [];
+    let showingAll = false;
+
+    commentText?.addEventListener('input', () => charCount.textContent = commentText.value.length);
+
     loadComments();
 
-    // Submit comment
-    if (commentForm) {
-        commentForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
+    commentForm?.addEventListener('submit', async e => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        if (!token) return alert('Please login to post a comment');
 
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('Please login to post a comment');
-                if (typeof openLoginModal === 'function') {
-                    openLoginModal();
-                }
-                return;
-            }
+        const content = commentText.value.trim();
+        if (!content) return;
 
-            const content = commentText.value.trim();
-            if (!content) return;
+        const submitBtn = commentForm.querySelector('.btn-submit-comment');
+        toggleButton(submitBtn, true);
 
-            const submitBtn = this.querySelector('.btn-submit-comment');
-            const btnText = submitBtn.querySelector('.btn-text');
-            const btnLoader = submitBtn.querySelector('.btn-loader');
-
-            try {
-                submitBtn.disabled = true;
-                btnText.style.display = 'none';
-                btnLoader.style.display = 'inline';
-
-                const response = await fetch(`${API_URL}/comments`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        articleId: pageId,
-                        content: content
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    commentText.value = '';
-                    charCount.textContent = '0';
-                    loadComments();
-                    showNotification('✅ Comment posted successfully!', 'success');
-                } else {
-                    throw new Error(data.message || 'Failed to post comment');
-                }
-
-            } catch (error) {
-                console.error('Error posting comment:', error);
-                showNotification('❌ Failed to post comment. Please try again.', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                btnText.style.display = 'inline';
-                btnLoader.style.display = 'none';
-            }
-        });
-    }
-
-    // Load comments from API
-    async function loadComments() {
         try {
-            commentsLoading.style.display = 'block';
-            commentsEmpty.style.display = 'none';
-            
-            const existingComments = commentsList.querySelectorAll('.comment-card');
-            existingComments.forEach(card => card.remove());
+            const res = await fetch(`${API_URL}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ articleId: pageId, content })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Failed to post comment');
 
-            const response = await fetch(`${API_URL}/comments/${pageId}`);
-            const data = await response.json();
+            commentText.value = '';
+            charCount.textContent = '0';
+            loadComments();
+            alert('✅ Comment posted successfully!');
+        } catch (err) {
+            console.error(err);
+            alert('❌ Failed to post comment. Please try again.');
+        } finally {
+            toggleButton(submitBtn, false);
+        }
+    });
 
+    async function loadComments() {
+        commentsLoading.style.display = 'block';
+        commentsEmpty.style.display = 'none';
+        commentsList.innerHTML = '';
+
+        try {
+            const res = await fetch(`${API_URL}/comments/${pageId}`);
+            const data = await res.json();
             commentsLoading.style.display = 'none';
 
-            if (response.ok && data.data.comments.length > 0) {
-                const comments = data.data.comments;
-                commentCount.textContent = comments.length;
-
-                comments.forEach(comment => {
-                    const commentCard = createCommentCard(comment);
-                    commentsList.appendChild(commentCard);
-                });
+            if (res.ok && data.data.comments.length > 0) {
+                allComments = data.data.comments;
+                commentCount.textContent = allComments.length;
+                displayComments();
             } else {
                 commentsEmpty.style.display = 'block';
                 commentCount.textContent = '0';
+                viewAllBtn.style.display = 'none';
             }
-
-        } catch (error) {
-            console.error('Error loading comments:', error);
+        } catch (err) {
+            console.error(err);
             commentsLoading.style.display = 'none';
             commentsEmpty.style.display = 'block';
         }
     }
 
-    // Create comment card HTML
+    function displayComments() {
+        commentsList.innerHTML = '';
+        const commentsToShow = showingAll ? allComments : allComments.slice(0, 3);
+        commentsToShow.forEach(comment => commentsList.appendChild(createCommentCard(comment)));
+
+        if (allComments.length > 3) {
+            viewAllBtn.style.display = 'inline-block';
+            viewAllBtn.textContent = showingAll ? 'Show Less' : 'View All Comments';
+        } else {
+            viewAllBtn.style.display = 'none';
+        }
+    }
+
+    viewAllBtn.addEventListener('click', () => {
+        showingAll = !showingAll;
+        displayComments();
+    });
+
     function createCommentCard(comment) {
         const card = document.createElement('div');
         card.className = 'comment-card';
-        
-        const timeAgo = getTimeAgo(new Date(comment.createdAt));
-        const avatarEmoji = getRandomAvatar();
-
         card.innerHTML = `
             <div class="comment-header">
-                <div class="comment-avatar">${avatarEmoji}</div>
+                <div class="comment-avatar">${randomAvatar()}</div>
                 <div class="comment-author-info">
                     <div class="comment-author">${escapeHtml(comment.user?.name || 'Anonymous')}</div>
-                    <div class="comment-time">${timeAgo}</div>
+                    <div class="comment-time">${timeAgo(new Date(comment.createdAt))}</div>
                 </div>
             </div>
             <div class="comment-content">${escapeHtml(comment.content)}</div>
             <div class="comment-actions">
-                <button class="comment-action-btn" onclick="likeComment(${comment.id})">
-                    👍 Like <span class="like-count">${comment.likes || 0}</span>
+                <button class="comment-action-btn" onclick="likeComment(${comment.id}, event)">
+                    👍 <span class="like-count">${comment.likes || 0}</span>
                 </button>
             </div>
         `;
-
         return card;
     }
 
-    // Helper functions
-    function getTimeAgo(date) {
-        const seconds = Math.floor((new Date() - date) / 1000);
-        
-        const intervals = {
-            year: 31536000,
-            month: 2592000,
-            week: 604800,
-            day: 86400,
-            hour: 3600,
-            minute: 60
-        };
-
-        for (const [unit, secondsInUnit] of Object.entries(intervals)) {
-            const interval = Math.floor(seconds / secondsInUnit);
-            if (interval >= 1) {
-                return `${interval} ${unit}${interval > 1 ? 's' : ''} ago`;
-            }
-        }
-
-        return 'Just now';
-    }
-
-    function getRandomAvatar() {
-        const avatars = ['👨', '👩', '🧑', '👤', '😊', '🎓', '👨‍⚕️', '👩‍⚕️'];
-        return avatars[Math.floor(Math.random() * avatars.length)];
+    function toggleButton(btn, loading) {
+        if (!btn) return;
+        btn.disabled = loading;
+        btn.querySelector('.btn-text').style.display = loading ? 'none' : 'inline';
+        btn.querySelector('.btn-loader').style.display = loading ? 'inline' : 'none';
     }
 
     function escapeHtml(text) {
@@ -405,90 +368,75 @@ document.addEventListener('DOMContentLoaded', function() {
         return div.innerHTML;
     }
 
-    function showNotification(message, type) {
-        alert(message);
+    function randomAvatar() {
+        const avatars = ['👨','👩','🧑','👤','😊','🎓','👨‍⚕️','👩‍⚕️'];
+        return avatars[Math.floor(Math.random() * avatars.length)];
+    }
+
+    function timeAgo(date) {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        const intervals = { year: 31536000, month: 2592000, week: 604800, day: 86400, hour: 3600, minute: 60 };
+        for (let [unit, sec] of Object.entries(intervals)) {
+            const val = Math.floor(seconds / sec);
+            if (val >= 1) return `${val} ${unit}${val > 1 ? 's' : ''} ago`;
+        }
+        return 'Just now';
     }
 });
 
-// Like comment function
-function likeComment(commentId) {
+// Like comment
+function likeComment(commentId, event) {
     const token = localStorage.getItem('token');
-    if (!token) {
-        alert('Please login to like comments');
-        return;
-    }
+    if (!token) return alert('Please login to like comments');
 
-    fetch(`${API_URL}/comments/${commentId}/like`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            // Update like count in UI
-            const likeBtn = event.target.closest('.comment-action-btn');
-            const likeCount = likeBtn.querySelector('.like-count');
-            if (likeCount) {
-                likeCount.textContent = data.data.likes;
+    fetch(`${API_URL}/comments/${commentId}/like`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const likeCount = event.target.closest('.comment-action-btn').querySelector('.like-count');
+                if (likeCount) likeCount.textContent = data.data.likes;
             }
-        }
-    })
-    .catch(err => console.error('Like error:', err));
+        })
+        .catch(err => console.error(err));
 }
 
-// Read More/Less functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const overviewSection = document.querySelector('.overview-section');
-    
-    if (overviewSection) {
-        const container = overviewSection.querySelector('.container');
-        const allElements = Array.from(container.children);
-        
-        const firstH2 = container.querySelector('h2');
-        const firstP = container.querySelector('p');
-        
-        const expandableDiv = document.createElement('div');
-        expandableDiv.className = 'expandable-text';
-        expandableDiv.style.display = 'none';
-        
-        let foundFirst = false;
-        allElements.forEach(element => {
-            if (element === firstP) {
-                foundFirst = true;
-                return;
-            }
-            if (foundFirst) {
-                expandableDiv.appendChild(element.cloneNode(true));
-                element.remove();
-            }
-        });
-        
-        const readMoreLink = document.createElement('p');
-        readMoreLink.className = 'read-more-link';
-        readMoreLink.innerHTML = '<a href="javascript:void(0)">+ Read more</a>';
-        
-        const readLessLink = document.createElement('p');
-        readLessLink.className = 'read-less-link';
-        readLessLink.innerHTML = '<a href="javascript:void(0)">- Read less</a>';
-        
-        firstP.after(readMoreLink);
-        readMoreLink.after(expandableDiv);
-        expandableDiv.appendChild(readLessLink);
-        
-        readMoreLink.querySelector('a').addEventListener('click', function(e) {
-            e.preventDefault();
-            expandableDiv.style.display = 'block';
-            readMoreLink.style.display = 'none';
-            expandableDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        });
-        
-        readLessLink.querySelector('a').addEventListener('click', function(e) {
-            e.preventDefault();
-            expandableDiv.style.display = 'none';
-            readMoreLink.style.display = 'block';
-            firstH2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+
+// ==========================================
+// SEARCH FUNCTIONALITY
+// ==========================================
+const searchInput = document.querySelector('.search-bar input');
+searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+
+    const initialTopics = document.getElementById('initialTopics');
+    const additionalTopics = document.getElementById('additionalTopics');
+    const allTopics = [...initialTopics.querySelectorAll('.topic-card'), 
+                       ...additionalTopics.querySelectorAll('.topic-card')];
+
+    let anyVisible = false;
+
+    allTopics.forEach(topic => {
+        const text = topic.querySelector('h3').textContent.toLowerCase();
+        if (text.includes(query)) {
+            topic.style.display = 'block';
+            anyVisible = true;
+        } else {
+            topic.style.display = 'none';
+        }
+    });
+
+    const viewAllBtn = document.getElementById('viewAllBtn');
+    if (query.length > 0) {
+        viewAllBtn.style.display = 'none';
+        initialTopics.style.display = 'grid';
+        additionalTopics.style.display = 'grid';
+    } else {
+        viewAllBtn.style.display = 'block';
+        if (additionalTopics.classList.contains('hidden')) {
+            additionalTopics.style.display = 'none';
+        } else {
+            additionalTopics.style.display = 'grid';
+        }
+        initialTopics.style.display = 'grid';
     }
 });
