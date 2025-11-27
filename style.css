@@ -1,7 +1,4 @@
-/* ==========================================
-   TEACHME ANATOMY - MAIN STYLESHEET
-   Clean & Organized Version
-   ========================================== */
+
 
 /* ==========================================
    1. GLOBAL STYLES & RESET
@@ -257,7 +254,7 @@ header {
 }
 
 .hero-description strong {
-    color: #00a896;
+    color: #9be8e1;
     font-weight: 600;
 }
 
@@ -359,7 +356,7 @@ header {
 
 .testimonials-section {
     padding: 60px 40px;
-    background-color: #fff;
+    background-color: #ede8e8;
 }
 
 .testimonials-grid {
@@ -371,7 +368,7 @@ header {
 }
 
 .testimonial-card {
-    background: #f5f5f5;
+    background: #f7f7f7;
     padding: 35px 30px;
     border-radius: 12px;
     transition: transform 0.3s, box-shadow 0.3s;
@@ -513,7 +510,7 @@ header {
 
 .topics-grid-section {
     padding: 60px 40px;
-    background-color: #fafafa;
+    background-color: #fbf6f6;
 }
 
 .topics-two-column {

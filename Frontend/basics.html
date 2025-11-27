@@ -5,60 +5,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Basics - TeachMe Anatomy</title>
     <link rel="stylesheet" href="../style.css">
+        <link rel="icon" type="image/svg+xml" href="/icon_folder/eye-solid-full.svg">
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+   /* 3D MODEL OVERVIEW SECTION STYLES */
+
+.overview-section-with-model {
+    padding: 60px 40px;
+    background: white;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.overview-text h2 {
+    font-size: 32px;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+
+.overview-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #475569;
+    margin-bottom: 20px;
+}
+
+.expandable-text {
+    display: none;
+}
+
+.read-more-link, .read-less-link {
+    margin-top: 10px;
+}
+
+.read-more-link a, .read-less-link a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.read-more-link a:hover, .read-less-link a:hover {
+    text-decoration: underline;
+}
+
+/* 3D Model Container */
+.model-viewer-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+/* Hotspot Styles */
+.hotspot {
+    background: #3b82f6;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.hotspot:hover {
+    background: #1e3a8a;
+    transform: scale(1.2);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.6);
+}
+
+.hotspot::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #3b82f6;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Hotspot Annotation */
+.hotspot-annotation {
+    display: none;
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.hotspot:hover .hotspot-annotation {
+    display: block;
+}
+
+.hotspot-annotation h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+}
+
+.hotspot-annotation p {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .overview-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .model-viewer-container {
+        height: 500px;
+    }
+}
+
+@media (max-width: 640px) {
+    .model-viewer-container {
+        height: 400px;
+    }
+
+    .hotspot {
+        width: 20px;
+        height: 20px;
+    }
+
+    .hotspot-annotation {
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+}
+    </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <!-- <header>
-        <div class="header-top">
-            <div class="logo-section">
-                <a href="../index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
-                    <div class="logo">
-                        <img src="../images/logo-icon.png" alt="TeachMe Anatomy Logo">
-                    </div>
-                    <div class="logo-text">
-                        <h1>
-                            <span>TeachMe</span>
-                            <span>Anatomy</span>
-                        </h1>
-                    </div>
-                </a>
-            </div>
-
-            <div class="search-bar">
-                <div class="search-container">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Search the website">
-                </div>
-            </div>
-
-            <div class="header-links">
-    <a href="#">Spotter</a>
-    <a href="#">Question Bank</a>
-    <a href="#">Flashcards</a>
-    <a href="#">Pricing</a>
-    
-    <!-- ETA ADD KORO -->
-    <!-- <div id="authButtons">
-        <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
-    </div>
-</div>
-
-        <nav class="nav-menu">
-            <ul>
-                <li><a href="basics.html" class="active">The Basics</a></li>
-                <li><a href="head.html">Head</a></li> -->
-                <!-- <li><a href="neuroanatomy.html">Neuroanatomy</a></li>
-                <li><a href="neck.html">Neck</a></li>
-                <li><a href="thorax.html">Thorax</a></li>
-                <li><a href="back.html">Back</a></li>
-                <li><a href="upper-limb.html">Upper Limb</a></li>
-                <li><a href="lower-limb.html">Lower Limb</a></li>
-                <li><a href="abdomen.html">Abdomen</a></li>
-                <li><a href="pelvis.html">Pelvis</a></li>
-                <li><a href="3d-body.html">3D Body</a></li>
-            </ul>
-        </nav>
-    </header> --> -->
+   
 
    
     <!-- Header Section -->
@@ -67,7 +183,7 @@
         <div class="logo-section">
             <a href="index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
                 <div class="logo">
-                    <img src="images/logo-icon.png" alt="TeachMe Anatomy Logo">
+                    <img src="/icon_folder/site_icon.png" alt="TeachMe Anatomy Logo">
                 </div>
                 <div class="logo-text">
                     <h1>
@@ -100,17 +216,15 @@
 
     <nav class="nav-menu">
         <ul>
-            <li><a href="subpages/basics.html">The Basics</a></li>
-            <li><a href="subpages/head.html">Head</a></li>
-            <li><a href="subpages/neuroanatomy.html">Neuroanatomy</a></li>
-            <li><a href="subpages/neck.html">Neck</a></li>
-            <li><a href="subpages/thorax.html">Thorax</a></li>
-            <li><a href="subpages/back.html">Back</a></li>
-            <li><a href="subpages/upper-limb.html">Upper Limb</a></li>
-            <li><a href="subpages/lower-limb.html">Lower Limb</a></li>
-            <li><a href="subpages/abdomen.html">Abdomen</a></li>
-            <li><a href="subpages/pelvis.html">Pelvis</a></li>
-            <li><a href="subpages/3d-body.html">3D Body</a></li>
+            <li><a href="basics.html">The Basics</a></li>
+            <li><a href="head.html">Head</a></li>
+            <li><a href="neuroanatomy.html">Neuroanatomy</a></li>
+            <li><a href="neck.html">Neck</a></li>
+            <li><a href="thorax.html">Thorax</a></li>
+            <li><a href="back.html">Back</a></li>
+            <li><a href="abdomen.html">Abdomen</a></li>
+            <li><a href="pelvis.html">Pelvis</a></li>
+            <li><a href="3d-body.html">3D Body</a></li>
         </ul>
     </nav>
 </header>
@@ -148,7 +262,7 @@
     </div>
 </div>
 
-<!-- Page Title Section -->  ← Erpor page continue hobe
+<!-- Page Title Section --> 
 
     <!-- Page Title Section -->
     <section class="page-title-section">
@@ -157,25 +271,143 @@
         </div>
     </section>
 
-    <!-- Overview Section -->
-    <section class="overview-section">
-        <div class="container">
-            <h2>Overview</h2>
-            <p>The fundamentals of human anatomy underpin every area of medical education and clinical practice. This section provides a structured introduction to the key concepts required to study the body effectively, including anatomical terminology, planes, movements and positional terms.</p>
-            
-            <div class="expandable-text">
-                <h2>Key Structures</h2>
-                <p>Within this section, you'll explore the core building blocks of the body – the tissues, organs and systems that form its foundation. Articles cover connective tissue, cartilage, bone and muscle, as well as joint classification and movement principles.</p>
+  <!-- Overview Section with 3D Model -->
+<section class="overview-section-with-model">
+    <div class="container">
+        <div class="overview-grid">
+            <!-- Left Side: Text Content -->
+            <div class="overview-text">
+                <h2>Overview</h2>
+                <p>The fundamentals of human anatomy underpin every area of medical education and clinical practice. This section provides a structured introduction to the key concepts required to study the body effectively, including anatomical terminology, planes, movements and positional terms.</p>
                 
-                <h2>Clinical Relevance and Learning Focus</h2>
-                <p>A strong grasp of the basics supports accurate clinical reasoning, communication and examination skills. The content in this section provides the essential anatomical framework used to interpret pathology, understand surgical approaches and explain imaging findings.</p>
+                <div class="expandable-text">
+                    <h2>Key Structures</h2>
+                    <p>Within this section, you'll explore the core building blocks of the body – the tissues, organs and systems that form its foundation. Articles cover connective tissue, cartilage, bone and muscle, as well as joint classification and movement principles.</p>
+                    
+                    <h2>Clinical Relevance and Learning Focus</h2>
+                    <p>A strong grasp of the basics supports accurate clinical reasoning, communication and examination skills. The content in this section provides the essential anatomical framework used to interpret pathology, understand surgical approaches and explain imaging findings.</p>
+                    
+                    <p class="read-less-link"><a href="javascript:void(0)">- Read less</a></p>
+                </div>
                 
-                <p class="read-less-link"><a href="javascript:void(0)">- Read less</a></p>
+                <p class="read-more-link"><a href="javascript:void(0)">+ Read more</a></p>
             </div>
-            
-            <p class="read-more-link"><a href="javascript:void(0)">+ Read more</a></p>
+
+            <!-- Right Side: 3D Model with Hotspots -->
+            <!-- <div class="model-viewer-container"> -->
+                <!-- <model-viewer 
+                    src="../blender_models/compressed_brain.glb"
+                    alt="Human Body 3D Model"
+                    auto-rotate
+                    rotation-per-second="20deg"
+                    camera-orbit="0deg 75deg 2m"
+                    field-of-view="30deg"
+                    shadow-intensity="1"
+                    camera-controls
+                    interaction-prompt="none">
+                    
+                     Hotspot 1: Head
+                    <button class="hotspot" slot="hotspot-1" data-position="0 1.6 0.1" data-normal="0 0 1">
+                        <div class="hotspot-annotation">
+                            <h4>Head & Skull</h4>
+                            <p>Cranium and facial bones</p>
+                        </div>
+                    </button>
+
+                    <!-- Hotspot 2: Thorax 
+                    <button class="hotspot" slot="hotspot-2" data-position="0 1.0 0.15" data-normal="0 0 1">
+                        <div class="hotspot-annotation">
+                            <h4>Thorax</h4>
+                            <p>Ribcage and chest cavity</p>
+                        </div>
+                    </button>
+
+                    <!-- Hotspot 3: Abdomen 
+                    <button class="hotspot" slot="hotspot-3" data-position="0 0.5 0.15" data-normal="0 0 1">
+                        <div class="hotspot-annotation">
+                            <h4>Abdomen</h4>
+                            <p>Digestive organs region</p>
+                        </div>
+                    </button>
+
+                    <!-- Hotspot 4: Upper Limb 
+                    <button class="hotspot" slot="hotspot-4" data-position="0.4 1.0 0.1" data-normal="1 0 0">
+                        <div class="hotspot-annotation">
+                            <h4>Upper Limb</h4>
+                            <p>Arm and shoulder</p>
+                        </div>
+                    </button>
+
+                    <!-- Hotspot 5: Lower Limb 
+                    <button class="hotspot" slot="hotspot-5" data-position="0.2 0.0 0.1" data-normal="0 -1 0">
+                        <div class="hotspot-annotation">
+                            <h4>Lower Limb</h4>
+                            <p>Leg and hip region</p>
+                        </div>
+                    </button>
+                </model-viewer> 
+            </div>-->
+            <!-- RIGHT SIDE: 3D MODEL WITH HOTSPOTS -->
+<div class="model-viewer-container">
+  <model-viewer
+    id="anatomyModel"
+    src="../blender_models/compressed_brain.glb"   
+    alt="Human Body 3D Model"
+    auto-rotate
+    rotation-per-second="20deg"
+    camera-orbit="0deg 75deg 2m"
+    field-of-view="30deg"
+    shadow-intensity="1"
+    camera-controls
+    interaction-prompt="none"
+    exposure="1"
+    style="background: transparent;"
+  >
+    <!-- Hotspot 1: Head -->
+    <!-- <button class="hotspot" slot="hotspot-1" data-position="0 1.6 0.1" data-normal="0 0 1" aria-label="Head hotspot">
+      <div class="hotspot-annotation" role="dialog" aria-hidden="true">
+        <h4>Head &amp; Skull</h4>
+        <p>Cranium and facial bones</p>
+      </div>
+    </button> -->
+
+    <!-- Hotspot 2: Thorax -->
+    <!-- <button class="hotspot" slot="hotspot-2" data-position="0 1.0 0.15" data-normal="0 0 1" aria-label="Thorax hotspot">
+      <div class="hotspot-annotation" role="dialog" aria-hidden="true">
+        <h4>Thorax</h4>
+        <p>Ribcage and chest cavity</p>
+      </div>
+    </button> -->
+
+    <!-- Hotspot 3: Abdomen -->
+    <!-- <button class="hotspot" slot="hotspot-3" data-position="0 0.5 0.15" data-normal="0 0 1" aria-label="Abdomen hotspot">
+      <div class="hotspot-annotation" role="dialog" aria-hidden="true">
+        <h4>Abdomen</h4>
+        <p>Digestive organs region</p>
+      </div>
+    </button> -->
+
+    <!-- Hotspot 4: Upper Limb -->
+    <!-- <button class="hotspot" slot="hotspot-4" data-position="0.4 1.0 0.1" data-normal="1 0 0" aria-label="Upper limb hotspot">
+      <div class="hotspot-annotation" role="dialog" aria-hidden="true">
+        <h4>Upper Limb</h4>
+        <p>Arm and shoulder</p>
+      </div>
+    </button> -->
+
+    <!-- Hotspot 5: Lower Limb -->
+    <!-- <button class="hotspot" slot="hotspot-5" data-position="0.2 0.0 0.1" data-normal="0 -1 0" aria-label="Lower limb hotspot">
+      <div class="hotspot-annotation" role="dialog" aria-hidden="true">
+        <h4>Lower Limb</h4>
+        <p>Leg and hip region</p>
+      </div>
+    </button> -->
+  </model-viewer>
+</div>
+
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Topics Grid Section -->
     <section class="topics-grid-section">
@@ -350,50 +582,60 @@
         </div>
     </section>
 <!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h4>TeachMe Anatomy</h4>
-                <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
-            </div>
+  <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TeachMe Anatomy</h4>
+                    <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
+                </div>
 
-            <div class="footer-column">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
 
-            <div class="footer-column">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Student Resources</a></li>
-                    <li><a href="#">Educator Resources</a></li>
-                </ul>
-            </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Student Resources</a></li>
+                        <li><a href="#">Educator Resources</a></li>
+                    </ul>
+                </div>
 
-            <div class="footer-column">
-                <h4>Connect With Us</h4>
-                <div class="social-icons">
-                    <a href="#"><img src="../images/icon-facebook.png" alt="Facebook"></a>
-                    <a href="#"><img src="../images/icon-twitter.png" alt="Twitter"></a>
-                    <a href="#"><img src="../images/icon-instagram.png" alt="Instagram"></a>
-                    <a href="#"><img src="../images/icon-linkedin.png" alt="LinkedIn"></a>
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+<a href="https://facebook.com" target="_blank">
+    <i class="fab fa-facebook fa-2x"></i>
+</a>
+                        <a href="https://twitter.com" target="_blank">
+    <i class="fab fa-twitter fa-2x"></i>
+</a>
+
+<a href="https://instagram.com" target="_blank">
+    <i class="fab fa-instagram fa-2x"></i>
+</a>
+
+<a href="https://linkedin.com" target="_blank">
+    <i class="fab fa-linkedin fa-2x"></i>
+</a>
+ </div>
                 </div>
             </div>
-        </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
       
 
     
