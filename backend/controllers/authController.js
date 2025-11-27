@@ -75,7 +75,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Include password explicitly for verification
     const user = await User.findOne({ 
       where: { email },
       attributes: { include: ['password'] }
@@ -138,10 +137,16 @@ const login = async (req, res) => {
 const getMe = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
-    res.status(200).json({ success: true, data: { user } });
+    res.status(200).json({ 
+      success: true, 
+      data: { user } 
+    });
   } catch (error) {
     console.error('Get Me Error:', error);
-    res.status(500).json({ success: false, message: error.message || 'Error getting user info' });
+    res.status(500).json({ 
+      success: false, 
+      message: error.message || 'Error getting user info' 
+    });
   }
 };
 

@@ -4,10 +4,10 @@ require('dotenv').config();
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  process.env.DB_PASSWORD || '',
   {
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
     logging: false,
     
@@ -34,17 +34,13 @@ const sequelize = new Sequelize(
 
 const connectDB = async () => {
   try {
-    // Test connection
     await sequelize.authenticate();
     console.log('✅ MySQL Database Connected Successfully!');
     
-    // Sync models - এখানে change করবেন
-    await sequelize.sync({ alter: true }); // ⭐ First time এর জন্য
-    // await sequelize.sync({ alter: true }); // পরে এটা use করবেন
+    await sequelize.sync({ alter: true });
     
     console.log('✅ All models synchronized with database');
     
-    // Show created tables
     const [results] = await sequelize.query("SHOW TABLES");
     console.log('📋 Created Tables:', results.map(r => Object.values(r)[0]));
     
@@ -54,4 +50,12 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { sequelize, connectDB };
+module.exports = { 
+  sequelize, 
+  connectDB,
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: process.env.DB_PORT,
+  DB_NAME: process.env.DB_NAME,
+  DB_USER: process.env.DB_USER,
+  DB_PASSWORD: process.env.DB_PASSWORD || ''
+};

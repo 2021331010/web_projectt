@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="main.js"></script> -->
     <title>TeachMe Anatomy - The No.1 Anatomy Learning Resource</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -37,8 +38,6 @@
                 <a href="#">Question Bank</a>
                 <a href="#">Flashcards</a>
                 <a href="#">Pricing</a>
-
-                <!-- Auth Buttons (Dynamic) -->
                 <div id="authButtons">
                     <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
                 </div>
@@ -155,7 +154,6 @@
         <div class="container">
             <h2 class="section-title">Explore Topics</h2>
             
-            <!-- Initial 8 Topics -->
             <div class="topics-grid" id="initialTopics">
                 <a href="subpages/basics.html" class="topic-card">
                     <div class="topic-icon">
@@ -222,7 +220,6 @@
                 </a>
             </div>
 
-            <!-- Additional Topics (Hidden by default) -->
             <div class="topics-grid hidden" id="additionalTopics">
                 <a href="subpages/abdomen.html" class="topic-card">
                     <div class="topic-icon">
@@ -381,54 +378,116 @@
         </div>
     </section>
 
+    <!-- Comments Section -->
+    <section class="comments-section">
+        <div class="container">
+            <div class="comments-header">
+                <h2>💬 Discussion & Comments</h2>
+                <p class="comments-count">Join the conversation (<span id="commentCount">0</span> comments)</p>
+            </div>
+
+            <div class="comment-form-container">
+                <div class="user-avatar">
+                    <div class="avatar-circle">👤</div>
+                </div>
+                <form id="commentForm" class="comment-form">
+                    <textarea 
+                        id="commentText" 
+                        placeholder="Share your thoughts, questions, or insights about this topic..."
+                        rows="3"
+                        required
+                        maxlength="1000"
+                    ></textarea>
+                    <div class="comment-form-footer">
+                        <span class="char-count"><span id="charCount">0</span>/1000</span>
+                        <button type="submit" class="btn-submit-comment">
+                            <span class="btn-text">Post Comment</span>
+                            <span class="btn-loader" style="display: none;">⏳</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="comments-list" id="commentsList">
+                <div class="comments-loading" id="commentsLoading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading comments...</p>
+                </div>
+
+                <div class="comments-empty" id="commentsEmpty" style="display: none;">
+                    <div class="empty-icon">💭</div>
+                    <h3>No comments yet</h3>
+                    <p>Be the first to share your thoughts!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      
+           
+
+
+       
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h4>TeachMe Anatomy</h4>
-                    <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Student Resources</a></li>
-                        <li><a href="#">Educator Resources</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Connect With Us</h4>
+                    <h4>TeachMe<span>Anatomy</span></h4>
+                    <p class="footer-subtitle">Part of the TeachMe Series</p>
+                    <p>The medical information on this site is provided as an information resource only, and is not to be used or relied on for any diagnostic or treatment purposes. This information is intended for medical education, and does not create any doctor-patient relationship, and should not be used as a substitute for professional diagnosis and treatment. By visiting this site you agree to the foregoing terms and conditions. If you do not agree to the foregoing terms and conditions, you should not enter this site.</p>
                     <div class="social-icons">
-                        <a href="#"><img src="images/icon-facebook.png" alt="Facebook"></a>
-                        <a href="#"><img src="images/icon-twitter.png" alt="Twitter"></a>
-                        <a href="#"><img src="images/icon-instagram.png" alt="Instagram"></a>
-                        <a href="#"><img src="images/icon-linkedin.png" alt="LinkedIn"></a>
+                        <a href="#" title="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="#" title="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="#" title="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+                            </svg>
+                        </a>
+                        <a href="#" title="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
                     </div>
                 </div>
-            </div>
 
-            <div class="footer-bottom">
-                <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
+                <div class="footer-column">
+                    <ul>
+                        <li><a href="#">Mobile App</a></li>
+                        <li><a href="#">Leave a Review</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Advertise with Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Acceptable Use Policy</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </footer>
 
-    <!-- JavaScript -->
-    <script>
+            <div class="footer-bottom">
+                <p>&copy; The TeachMe Series 2025 | Registered in England & Wales</p>
+            </div>
+    </footer>
+</body>
+</html>
+</body>
+</html>
+<script>
 // ==========================================
 // API Configuration
 // ==========================================
@@ -654,7 +713,274 @@ function logout() {
         location.reload();
     }
 }
-    </script>
 
-</body>
-</html>
+// ==========================================
+// COMMENTS FUNCTIONALITY
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const commentForm = document.getElementById('commentForm');
+    const commentText = document.getElementById('commentText');
+    const charCount = document.getElementById('charCount');
+    const commentsList = document.getElementById('commentsList');
+    const commentsLoading = document.getElementById('commentsLoading');
+    const commentsEmpty = document.getElementById('commentsEmpty');
+    const commentCount = document.getElementById('commentCount');
+
+    // Get current page ID from URL
+    const pageId = window.location.pathname.split('/').pop().replace('.html', '') || 'basics';
+
+    // Character counter
+    if (commentText) {
+        commentText.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+    }
+
+    // Load comments on page load
+    loadComments();
+
+    // Submit comment
+    if (commentForm) {
+        commentForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to post a comment');
+                if (typeof openLoginModal === 'function') {
+                    openLoginModal();
+                }
+                return;
+            }
+
+            const content = commentText.value.trim();
+            if (!content) return;
+
+            const submitBtn = this.querySelector('.btn-submit-comment');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoader = submitBtn.querySelector('.btn-loader');
+
+            try {
+                submitBtn.disabled = true;
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline';
+
+                const response = await fetch(`${API_URL}/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        articleId: pageId,
+                        content: content
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    commentText.value = '';
+                    charCount.textContent = '0';
+                    loadComments();
+                    showNotification('✅ Comment posted successfully!', 'success');
+                } else {
+                    throw new Error(data.message || 'Failed to post comment');
+                }
+
+            } catch (error) {
+                console.error('Error posting comment:', error);
+                showNotification('❌ Failed to post comment. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            }
+        });
+    }
+
+    // Load comments from API
+    async function loadComments() {
+        try {
+            commentsLoading.style.display = 'block';
+            commentsEmpty.style.display = 'none';
+            
+            const existingComments = commentsList.querySelectorAll('.comment-card');
+            existingComments.forEach(card => card.remove());
+
+            const response = await fetch(`${API_URL}/comments/${pageId}`);
+            const data = await response.json();
+
+            commentsLoading.style.display = 'none';
+
+            if (response.ok && data.data.comments.length > 0) {
+                const comments = data.data.comments;
+                commentCount.textContent = comments.length;
+
+                comments.forEach(comment => {
+                    const commentCard = createCommentCard(comment);
+                    commentsList.appendChild(commentCard);
+                });
+            } else {
+                commentsEmpty.style.display = 'block';
+                commentCount.textContent = '0';
+            }
+
+        } catch (error) {
+            console.error('Error loading comments:', error);
+            commentsLoading.style.display = 'none';
+            commentsEmpty.style.display = 'block';
+        }
+    }
+
+    // Create comment card HTML
+    function createCommentCard(comment) {
+        const card = document.createElement('div');
+        card.className = 'comment-card';
+        
+        const timeAgo = getTimeAgo(new Date(comment.createdAt));
+        const avatarEmoji = getRandomAvatar();
+
+        card.innerHTML = `
+            <div class="comment-header">
+                <div class="comment-avatar">${avatarEmoji}</div>
+                <div class="comment-author-info">
+                    <div class="comment-author">${escapeHtml(comment.user?.name || 'Anonymous')}</div>
+                    <div class="comment-time">${timeAgo}</div>
+                </div>
+            </div>
+            <div class="comment-content">${escapeHtml(comment.content)}</div>
+            <div class="comment-actions">
+                <button class="comment-action-btn" onclick="likeComment(${comment.id})">
+                    👍 Like <span class="like-count">${comment.likes || 0}</span>
+                </button>
+            </div>
+        `;
+
+        return card;
+    }
+
+    // Helper functions
+    function getTimeAgo(date) {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        
+        const intervals = {
+            year: 31536000,
+            month: 2592000,
+            week: 604800,
+            day: 86400,
+            hour: 3600,
+            minute: 60
+        };
+
+        for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+            const interval = Math.floor(seconds / secondsInUnit);
+            if (interval >= 1) {
+                return `${interval} ${unit}${interval > 1 ? 's' : ''} ago`;
+            }
+        }
+
+        return 'Just now';
+    }
+
+    function getRandomAvatar() {
+        const avatars = ['👨', '👩', '🧑', '👤', '😊', '🎓', '👨‍⚕️', '👩‍⚕️'];
+        return avatars[Math.floor(Math.random() * avatars.length)];
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function showNotification(message, type) {
+        alert(message);
+    }
+});
+
+// Like comment function
+function likeComment(commentId) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please login to like comments');
+        return;
+    }
+
+    fetch(`${API_URL}/comments/${commentId}/like`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // Update like count in UI
+            const likeBtn = event.target.closest('.comment-action-btn');
+            const likeCount = likeBtn.querySelector('.like-count');
+            if (likeCount) {
+                likeCount.textContent = data.data.likes;
+            }
+        }
+    })
+    .catch(err => console.error('Like error:', err));
+}
+
+// Read More/Less functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const overviewSection = document.querySelector('.overview-section');
+    
+    if (overviewSection) {
+        const container = overviewSection.querySelector('.container');
+        const allElements = Array.from(container.children);
+        
+        const firstH2 = container.querySelector('h2');
+        const firstP = container.querySelector('p');
+        
+        const expandableDiv = document.createElement('div');
+        expandableDiv.className = 'expandable-text';
+        expandableDiv.style.display = 'none';
+        
+        let foundFirst = false;
+        allElements.forEach(element => {
+            if (element === firstP) {
+                foundFirst = true;
+                return;
+            }
+            if (foundFirst) {
+                expandableDiv.appendChild(element.cloneNode(true));
+                element.remove();
+            }
+        });
+        
+        const readMoreLink = document.createElement('p');
+        readMoreLink.className = 'read-more-link';
+        readMoreLink.innerHTML = '<a href="javascript:void(0)">+ Read more</a>';
+        
+        const readLessLink = document.createElement('p');
+        readLessLink.className = 'read-less-link';
+        readLessLink.innerHTML = '<a href="javascript:void(0)">- Read less</a>';
+        
+        firstP.after(readMoreLink);
+        readMoreLink.after(expandableDiv);
+        expandableDiv.appendChild(readLessLink);
+        
+        readMoreLink.querySelector('a').addEventListener('click', function(e) {
+            e.preventDefault();
+            expandableDiv.style.display = 'block';
+            readMoreLink.style.display = 'none';
+            expandableDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        readLessLink.querySelector('a').addEventListener('click', function(e) {
+            e.preventDefault();
+            expandableDiv.style.display = 'none';
+            readMoreLink.style.display = 'block';
+            firstH2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+});
+
+</script>

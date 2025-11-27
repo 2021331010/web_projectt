@@ -1,34 +1,24 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const { sequelize } = require('./models');
 const { connectDB } = require('./config/database');
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express app
 const app = express();
 
-// ===============================
-// 🔥 Load All Models (VERY IMPORTANT)
-// ===============================
 require('./models');
 
-// ===============================
 // Middleware
-// ===============================
-
-// CORS Configuration
 app.use(cors({
   origin: '*',
   credentials: true
 }));
 
-// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Request Logger (Only in development)
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
     console.log(`📍 ${req.method} ${req.path}`);
@@ -36,14 +26,10 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
-// ===============================
-// 🛣️ API Routes
-// ===============================
-
-// Auth Routes
+// Routes
 app.use('/api/auth', require('./routes/Auth'));
+app.use('/api/comments', require('./routes/Comment'));
 
-// Root Route
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -57,13 +43,18 @@ app.get('/', (req, res) => {
         me: 'GET /api/auth/me',
         logout: 'POST /api/auth/logout'
       },
+      comments: {
+        getComments: 'GET /api/comments/:articleId',
+        postComment: 'POST /api/comments',
+        deleteComment: 'DELETE /api/comments/:id',
+        likeComment: 'POST /api/comments/:id/like'
+      },
       health: 'GET /api/health'
     },
     timestamp: new Date().toISOString()
   });
 });
 
-// Health Check Route
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
@@ -74,11 +65,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ===============================
-// 🚫 Error Handling
-// ===============================
-
-// 404 Handler (Must be after all routes)
+// Error Handling
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -86,7 +73,6 @@ app.use((req, res) => {
   });
 });
 
-// Global Error Handler
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err.stack);
 
@@ -100,17 +86,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ===============================
-// 🚀 Start Server
-// ===============================
+// Start Server
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    // Connect to Database
     await connectDB();
 
-    // Start Express Server
     app.listen(PORT, () => {
       console.log('');
       console.log('==========================================');
@@ -122,10 +104,19 @@ const startServer = async () => {
       console.log(`🔐 JWT Enabled: Yes`);
       console.log('==========================================');
       console.log('📚 API Endpoints:');
+      console.log('   AUTH:');
       console.log('   POST   /api/auth/register');
       console.log('   POST   /api/auth/login');
       console.log('   GET    /api/auth/me');
       console.log('   POST   /api/auth/logout');
+      console.log('');
+      console.log('   COMMENTS:');
+      console.log('   GET    /api/comments/:articleId');
+      console.log('   POST   /api/comments');
+      console.log('   DELETE /api/comments/:id');
+      console.log('   POST   /api/comments/:id/like');
+      console.log('');
+      console.log('   HEALTH:');
       console.log('   GET    /api/health');
       console.log('==========================================');
       console.log('');
@@ -137,28 +128,20 @@ const startServer = async () => {
   }
 };
 
-// Start the server
 startServer();
 
-// ===============================
-// 🛡️ Process Error Handlers
-// ===============================
-
-// Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   console.error('❌ Unhandled Promise Rejection:', err);
   console.error('💥 Shutting down server...');
   process.exit(1);
 });
 
-// Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
   console.error('❌ Uncaught Exception:', err);
   console.error('💥 Shutting down server...');
   process.exit(1);
 });
 
-// Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('👋 SIGTERM received. Shutting down gracefully...');
   process.exit(0);

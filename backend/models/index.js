@@ -1,21 +1,24 @@
+const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
-const User = require('./user');
-const Article = require('./Article');
 
-// Define Relationships
-User.hasMany(Article, {
-  foreignKey: 'authorId',
-  as: 'articles',
+// Import Models
+const User = require('./user')(sequelize, DataTypes);
+const Comment = require('./Comment')(sequelize, DataTypes);
+
+// Associations
+User.hasMany(Comment, {
+  foreignKey: 'userId',
+  as: 'comments',
   onDelete: 'CASCADE'
 });
 
-Article.belongsTo(User, {
-  foreignKey: 'authorId',
-  as: 'author'
+Comment.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'user'
 });
 
 module.exports = {
-  sequelize,
+  sequelize,  // ✅ শুধু এইটুকু
   User,
-  Article
+  Comment
 };
