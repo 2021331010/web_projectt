@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Basics - TeachMe Anatomy</title>
+    <link rel="stylesheet" href="../style.css">
+        <link rel="icon" type="image/svg+xml" href="/icon_folder/eye-solid-full.svg">
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+   /* 3D MODEL OVERVIEW SECTION STYLES */
+
+.overview-section-with-model {
+    padding: 60px 40px;
+    background: white;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.overview-text h2 {
+    font-size: 32px;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+
+.overview-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #475569;
+    margin-bottom: 20px;
+}
+
+.expandable-text {
+    display: none;
+}
+
+.read-more-link, .read-less-link {
+    margin-top: 10px;
+}
+
+.read-more-link a, .read-less-link a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.read-more-link a:hover, .read-less-link a:hover {
+    text-decoration: underline;
+}
+
+/* 3D Model Container */
+.model-viewer-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+/* Hotspot Styles */
+.hotspot {
+    background: #3b82f6;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.hotspot:hover {
+    background: #1e3a8a;
+    transform: scale(1.2);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.6);
+}
+
+.hotspot::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #3b82f6;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Hotspot Annotation */
+.hotspot-annotation {
+    display: none;
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.hotspot:hover .hotspot-annotation {
+    display: block;
+}
+
+.hotspot-annotation h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+}
+
+.hotspot-annotation p {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .overview-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .model-viewer-container {
+        height: 500px;
+    }
+}
+
+@media (max-width: 640px) {
+    .model-viewer-container {
+        height: 400px;
+    }
+
+    .hotspot {
+        width: 20px;
+        height: 20px;
+    }
+
+    .hotspot-annotation {
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+}
+
+/* START: Clickable 2-column category cards (replace images as needed)  */
+
+/* Container: two columns */
+.topics-two-column {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+  align-items: center;
+  padding: 24px 0;
+}
+
+/* Single card as clickable link */
+.topic-card {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 16px;
+  border-radius: 12px;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  background: transparent;
+}
+
+/* Hover / focus */
+.topic-card:hover,
+.topic-card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(16,24,40,0.08);
+  background: rgba(0,0,0,0.01);
+  outline: none;
+}
+
+/* Circular image container */
+.icon-circle {
+  flex: 0 0 150px; /* fixed circle size */
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+  overflow: hidden;
+}
+
+/* Image inside circle (cover) */
+.icon-circle img {
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Content (title + list) */
+.topic-content h3 {
+  font-size: 28px;
+  margin: 0 0 10px 0;
+  color: #0f172a; /* dark slate */
+}
+
+.topic-content .topic-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+  line-height: 1.8;
+}
+
+/* small bullet style */
+.topic-content .topic-list li {
+  margin-bottom: 6px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .topics-two-column {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .icon-circle {
+    width: 120px;
+    height: 120px;
+    flex: 0 0 120px;
+  }
+
+  .topic-content h3 {
+    font-size: 22px;
+  }
+}
+
+    </style>
+</head>
+<body>
+   
+
+   
+    <!-- Header Section -->
+<header>
+    <div class="header-top">
+        <div class="logo-section">
+            <a href="index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <div class="logo">
+                    <img src="/icon_folder/site_icon.png" alt="TeachMe Anatomy Logo">
+                </div>
+                <div class="logo-text">
+                    <h1>
+                        <span>Explore</span>
+                        <span>Anatomy</span>
+                    </h1>
+                </div>
+            </a>
+        </div>
+
+        <div class="search-bar">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search the website">
+            </div>
+        </div>
+
+        <div class="header-links">
+            <!-- <a href="#">Spotter</a> -->
+            <a href="#">Question Bank</a>
+            <!-- <a href="#">Flashcards</a> -->
+            <!-- <a href="#">Pricing</a> -->
+
+            <!-- Auth Buttons (Dynamic) -->
+
+            <!-- Auth Buttons (Dynamic) -->
+            <div id="authButtons">
+                <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-menu">
+        <ul>
+            <li><a href="basics.html">The Basics</a></li>
+            <li><a href="head.html">Head</a></li>
+            <li><a href="neuroanatomy.html">Neuroanatomy</a></li>
+            <li><a href="neck.html">Neck</a></li>
+            <li><a href="thorax.html">Thorax</a></li>
+            <li><a href="back.html">Back</a></li>
+            <li><a href="abdomen.html">Abdomen</a></li>
+            <li><a href="pelvis.html">Pelvis</a></li>
+            <li><a href="3d-body.html">3D Body</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<!-- EI 2 TA MODAL ADD KORO -->
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <h2>Login to Your Account</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit" class="auth-submit-btn">Login</button>
+        </form>
+        <p id="loginMessage" class="auth-message"></p>
+        <p class="switch-auth">Don't have an account? <a href="#" onclick="switchToRegister()">Register</a></p>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRegisterModal()">&times;</span>
+        <h2>Create New Account</h2>
+        <form id="registerForm">
+            <input type="text" id="registerName" placeholder="Full Name" required>
+            <input type="email" id="registerEmail" placeholder="Email" required>
+            <input type="password" id="registerPassword" placeholder="Password (min 6 characters)" required>
+            <button type="submit" class="auth-submit-btn">Register</button>
+        </form>
+        <p id="registerMessage" class="auth-message"></p>
+        <p class="switch-auth">Already have an account? <a href="#" onclick="switchToLogin()">Login</a></p>
+    </div>
+</div>
+
+<!-- Page Title Section --> 
+
+    <!-- Page Title Section -->
+    <section class="page-title-section">
+        <div class="container">
+            <h1>Abdomen</h1>
+        </div>
+    </section>
+
+  <!-- Overview Section with 3D Model -->
+<section class="overview-section-with-model">
+    <div class="container">
+        <div class="overview-grid">
+            <!-- Left Side: Text Content -->
+            <div class="overview-text">
+                <h2>Overview</h2>
+                <p>
+                   The abdomen is a large and dynamic anatomical region located between the thorax and pelvis, housing many of the body’s essential organs responsible for digestion, metabolism, filtration, and nutrient absorption. It is enclosed by the abdominal wall, diaphragm above, and pelvic inlet below, providing both protection and flexibility for internal structures. The abdominal cavity contains the stomach, liver, gallbladder, pancreas, spleen, small intestine, large intestine, and kidneys, along with major blood vessels such as the aorta and inferior vena cava. These organs collectively perform critical functions, including food breakdown, absorption of nutrients, detoxification, waste processing, and immune response. The peritoneum, a thin serous membrane, suspends and supports many of these organs within the cavity. The abdominal wall—composed of layered muscles like the rectus abdominis, external oblique, internal oblique, and transversus abdominis—maintains posture, stabilizes movement, and forms a strong yet flexible boundary. The diaphragm, a key respiratory muscle, also plays an important role in abdominal pressure control. Together, the structural framework and internal organs of the abdomen form an interconnected system essential for digestion, circulation, metabolism, and overall body homeostasis.
+                </p>
+                
+                <div class="expandable-text">
+                    <h2>Key Structures</h2>
+                    <p>Within this section, you'll explore the core building blocks of the body – the tissues, organs and systems that form its foundation. Articles cover connective tissue, cartilage, bone and muscle, as well as joint classification and movement principles.</p>
+                    
+                    <h2>Clinical Relevance and Learning Focus</h2>
+                    <p>A strong grasp of the basics supports accurate clinical reasoning, communication and examination skills. The content in this section provides the essential anatomical framework used to interpret pathology, understand surgical approaches and explain imaging findings.</p>
+                    
+                   
+                </div>
+                
+                
+            </div>
+
+           
+<div class="model-viewer-container">
+  <model-viewer
+    id="anatomyModel"
+    src="../blender_models/compressed_abdomen.glb"   
+    alt="Human Body 3D Model"
+    auto-rotate
+    rotation-per-second="20deg"
+    camera-orbit="0deg 75deg 2m"
+    field-of-view="30deg"
+    shadow-intensity="1"
+    camera-controls
+    interaction-prompt="none"
+    exposure="1"
+    style="background: transparent;"
+  >
+    
+  </model-viewer>
+</div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Topics Grid Section -->
+    <section class="topics-grid-section">
+        <div class="container">
+            <div class="topics-two-column">
+  <!-- Card 1 -->
+  <a class="topic-card" href="/areas.html" aria-label="Areas — view details">
+    <div class="icon-circle">
+      <!-- replace src with your image path -->
+      <img src="/icon_folder/abdomen1.png" alt="Areas illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Areas</h3>
+      <ul class="topic-list">
+        <li>Abdominal cavity</li>
+        <li>Regions (9-region system)</li>
+        <li>+3 more</li>
+      </ul>
+    </div>
+  </a>
+
+  <!-- Card 2 -->
+  <a class="topic-card" href="/bones.html" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/abdomen2.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Bones</h3>
+      <ul class="topic-list">
+        <li>Thoracic cage (lower ribs)</li>
+        <li>Lumbar vertebrae (L1–L5)</li>
+        <li>Sacrum (upper part contributes to posterior boundary)</li>
+      </ul>
+    </div>
+  </a>
+   <!-- Card 3 -->
+  <a class="topic-card" href="/bones.html" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/pel4.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Reproductive System</h3>
+      <ul class="topic-list">
+        <li>Male (abdominal parts)</li>
+        <li>Female (abdominal parts)</li>
+        
+      </ul>
+    </div>
+  </a>
+   <!-- Card 4 -->
+  <a class="topic-card" href="/bones.html" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/abdomen4.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Other Parts</h3>
+      <ul class="topic-list">
+        <li>Blood Supply</li>
+        <li>Scalp (Layers)</li>
+        
+      </ul>
+    </div>
+  </a>
+
+  
+</div>
+        </div>
+    </section>
+
+    
+<!-- Footer -->
+  <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TeachMe Anatomy</h4>
+                    <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Student Resources</a></li>
+                        <li><a href="#">Educator Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+<a href="https://facebook.com" target="_blank">
+    <i class="fab fa-facebook fa-2x"></i>
+</a>
+                        <a href="https://twitter.com" target="_blank">
+    <i class="fab fa-twitter fa-2x"></i>
+</a>
+
+<a href="https://instagram.com" target="_blank">
+    <i class="fab fa-instagram fa-2x"></i>
+</a>
+
+<a href="https://linkedin.com" target="_blank">
+    <i class="fab fa-linkedin fa-2x"></i>
+</a>
+ </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+      
+
+    
+                
+               <script>
+// API Configuration
+const API_URL = 'http://localhost:5000/api';
+
+// Check Authentication + Read More Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuthStatus();
+    initializeReadMore();
+});
+
+// Check if user logged in
+async function checkAuthStatus() {
+    const token = localStorage.getItem('token');
+    const authButtons = document.getElementById('authButtons');
+
+    if (token) {
+        try {
+            const response = await fetch(`${API_URL}/auth/me`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const user = data.data.user;
+                authButtons.innerHTML = `
+                    <span style="color: white; margin-right: 15px; font-size: 15px;">
+                        👋 Welcome, ${user.name}
+                    </span>
+                    <a href="#" onclick="logout()" class="login-btn">Logout</a>
+                `;
+            } else {
+                showLoginButton();
+            }
+        } catch (error) {
+            showLoginButton();
+        }
+    } else {
+        showLoginButton();
+    }
+}
+
+function showLoginButton() {
+    document.getElementById('authButtons').innerHTML = '<a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>';
+}
+
+// Modal Functions
+function openLoginModal() {
+    document.getElementById('loginModal').style.display = 'block';
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('loginForm').reset();
+    document.getElementById('loginMessage').textContent = '';
+}
+
+function openRegisterModal() {
+    document.getElementById('registerModal').style.display = 'block';
+}
+
+function closeRegisterModal() {
+    document.getElementById('registerModal').style.display = 'none';
+    document.getElementById('registerForm').reset();
+    document.getElementById('registerMessage').textContent = '';
+}
+
+function switchToRegister() {
+    closeLoginModal();
+    openRegisterModal();
+}
+
+function switchToLogin() {
+    closeRegisterModal();
+    openLoginModal();
+}
+
+window.onclick = (event) => {
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+    if (event.target == loginModal) closeLoginModal();
+    if (event.target == registerModal) closeRegisterModal();
+};
+
+// Login Form Submit
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const messageEl = document.getElementById('loginMessage');
+    const submitBtn = e.target.querySelector('button');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Logging in...';
+    messageEl.textContent = '';
+
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            messageEl.style.color = '#10b981';
+            messageEl.textContent = '✅ Login successful!';
+            
+            localStorage.setItem('token', data.data.token);
+            localStorage.setItem('user', JSON.stringify(data.data.user));
+            
+            setTimeout(() => {
+                closeLoginModal();
+                location.reload();
+            }, 1000);
+        } else {
+            messageEl.style.color = '#ef4444';
+            messageEl.textContent = '❌ ' + (data.message || 'Login failed');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Login';
+        }
+    } catch (error) {
+        messageEl.style.color = '#ef4444';
+        messageEl.textContent = '❌ Cannot connect to server';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Login';
+    }
+});
+
+// Register Form Submit
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('registerName').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    const messageEl = document.getElementById('registerMessage');
+    const submitBtn = e.target.querySelector('button');
+
+    if (password.length < 6) {
+        messageEl.style.color = '#ef4444';
+        messageEl.textContent = '❌ Password must be 6+ characters';
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating account...';
+    messageEl.textContent = '';
+
+    try {
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            messageEl.style.color = '#10b981';
+            messageEl.textContent = '✅ Account created!';
+            
+            localStorage.setItem('token', data.data.token);
+            localStorage.setItem('user', JSON.stringify(data.data.user));
+            
+            setTimeout(() => {
+                closeRegisterModal();
+                location.reload();
+            }, 1000);
+        } else {
+            messageEl.style.color = '#ef4444';
+            messageEl.textContent = '❌ ' + (data.message || 'Registration failed');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Register';
+        }
+    } catch (error) {
+        messageEl.style.color = '#ef4444';
+        messageEl.textContent = '❌ Cannot connect to server';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Register';
+    }
+});
+
+// Logout
+function logout() {
+    if (confirm('Logout?')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        alert('✅ Logged out!');
+        location.reload();
+    }
+}
+
+// Read More/Less
+function initializeReadMore() {
+    const expandableText = document.querySelector('.expandable-text');
+    const readMoreLink = document.querySelector('.read-more-link');
+    const readLessLink = document.querySelector('.read-less-link');
+    
+    if (expandableText && readMoreLink && readLessLink) {
+        expandableText.style.display = 'none';
+        
+        readMoreLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            expandableText.style.display = 'block';
+            readMoreLink.style.display = 'none';
+            expandableText.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        readLessLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            expandableText.style.display = 'none';
+            readMoreLink.style.display = 'block';
+            document.querySelector('.overview-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+}
+</script>
+</body>
+</html>
+</body>
+</html>
