@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Explore Anatomy - The No.1 Anatomy Learning Resource</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/svg+xml" href="/icon_folder/eye-solid-full.svg">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        
+
+        /* Main Content Container */ 
+         /* .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }  */
+
+        /* Breadcrumb */
+        /* .breadcrumb {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        } */
+
+        /* Article Layout: Text + Image Side by Side */
+        .article-section {
+            background: white;
+            border-radius: 12px;
+            padding: 150px;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+
+        .content-grid {
+            display: grid;
+            /* grid-template-columns: 1fr 1fr; */
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* Text Content (Left Side) */
+        .text-content h1 {
+            font-size: 36px;
+            color: #1e293b;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .text-content h2 {
+            font-size: 28px;
+            color: #0ea5e9;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .text-content p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #475569;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .text-content em {
+            font-style: italic;
+            color: #0ea5e9;
+            font-weight: 500;
+        }
+
+        .text-content strong {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Image Content (Right Side) */
+        .image-content {
+            position: sticky;
+            top: 20px;
+        }
+
+        .diagram-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .diagram-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .image-caption {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        /* Full Width Content (No Image) */
+        .full-width-content {
+            max-width: 900px;
+        }
+
+        /* Middle Image (Between Paragraphs) */
+        .inline-image {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .inline-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .inline-image-caption {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        /* Large Center Image */
+        .center-image-large {
+            margin: 50px 0;
+            text-align: center;
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .center-image-large img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        /* Key Points Box */
+        .key-points {
+            background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+            border-left: 4px solid #0ea5e9;
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .key-points h3 {
+            color: #0369a1;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .key-points ul {
+            margin-left: 20px;
+        }
+
+        .key-points li {
+            color: #475569;
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* Clinical Note Box */
+        .clinical-note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .clinical-note h4 {
+            color: #92400e;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .clinical-note p {
+            color: #78350f;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        /* Navigation Buttons */
+        .article-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-prev {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .image-content {
+                position: static;
+            }
+
+            .article-section {
+                padding: 35px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 40px 20px;
+            }
+
+            .article-section {
+                padding: 25px;
+            }
+
+            .text-content h1 {
+                font-size: 28px;
+            }
+
+            .text-content h2 {
+                font-size: 22px;
+            }
+
+            .text-content p {
+                font-size: 16px;
+            }
+
+            /* .article-navigation {
+                flex-direction: column;
+            } */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo-section">
+                <a href="index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                    <div class="logo">
+                        <img src="/icon_folder/site_icon.png" alt="TeachMe Anatomy Logo">
+                    </div>
+                    <div class="logo-text">
+                        <h1>
+                            <span>Explore</span>
+                            <span>Anatomy</span>
+                        </h1>
+                    </div>
+                </a>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id = "searchInput" placeholder="Search the website">
+                </div>
+            </div>
+
+            <div class="header-links">
+            <!-- <a href="#">Spotter</a> -->
+            <a href="#">Question Bank</a>
+            <!-- <a href="#">Flashcards</a> -->
+            <!-- <a href="#">Pricing</a> -->
+
+            <!-- Auth Buttons (Dynamic) -->
+                <div id="authButtons">
+                    <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="/Frontend/basics.html">The Basics</a></li>
+                <li><a href="/Frontend/head.html">Head</a></li>
+                <li><a href="/Frontend/neuroanatomy.html">Neuroanatomy</a></li>
+                <li><a href="/Frontend/neck.html">Neck</a></li>
+                <li><a href="/Frontend/thorax.html">Thorax</a></li>
+                <li><a href="/Frontend/abdomen.html">Abdomen</a></li>
+                <li><a href="/Frontend/pelvis.html">Pelvis</a></li>
+                <li><a href="/Frontend/3d_parts.html">3D Body</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <!-- <div class="content-wrapper">
+        
+          Breadcrumb 
+        <div class="breadcrumb">
+            <a href="#">Home</a> / <a href="#">The Basics</a> / <span>Anatomical Position</span>
+         </div>  -->
+
+        <!-- Article Section with Text + Image -->
+        <article class="article-section">
+            <div class="content-grid">
+                
+                <!-- Left Side: Text Content -->
+                <div class="text-content">
+                    <h1>Anatomical Position</h1>
+                    
+                    <p>
+                        To further increase precision, anatomists standardize the way in which they view the body. Just as maps are normally oriented with north at the top, the standard body "map," or <em>anatomical position</em>, is that of the body standing upright, with the feet at shoulder width and parallel, toes forward.
+                    </p>
+
+                    <p>
+                        The upper limbs are held out to each side, and the palms of the hands face forward as illustrated in Figure 1. Using this standard position reduces confusion. It does not matter how the body being described is oriented, the terms are used as if it is in anatomical position.
+                    </p>
+
+                    <p>
+                        For example, a scar in the "anterior (front) carpal (wrist) region" would be present on the palm side of the wrist. The term "anterior" would be used even if the hand were palm down on a table.
+                    </p>
+
+                    <h2>Anatomical Planes</h2>
+
+                    <p>
+                        Three primary planes are used to describe the human body. The <strong>sagittal plane</strong> divides the body into right and left portions. A midsagittal plane divides the body exactly in the middle, creating two equal halves.
+                    </p>
+
+                    <p>
+                        The <strong>frontal (coronal) plane</strong> divides the body into anterior and posterior (front and back) portions. The <strong>transverse (horizontal) plane</strong> divides the body into superior and inferior (upper and lower) portions.
+                    </p>
+                    <div class="inline-image">
+                        <img src="/image_folder/anatomical_terminology.jpeg" alt="Directional Terms in Anatomy">
+                        <p class="inline-image-caption">
+                            Figure 1: Directional anatomical terms showing superior, inferior, anterior, posterior, medial, and lateral positions
+                        </p>
+                    </div>
+
+                    <div class="key-points">
+                        <h3> Key Points</h3>
+                        <ul>
+                            <li>Anatomical position is universally used for standardized descriptions</li>
+                            <li>The body stands upright with feet parallel and toes forward</li>
+                            <li>Arms are held out to the sides with palms facing forward</li>
+                            <li>This position ensures consistency in anatomical terminology</li>
+                        </ul>
+                    </div>
+
+                    <h2>Directional Terms</h2>
+
+                    <p>
+                        Directional terms describe the positions of structures relative to other structures or locations in the body. <strong>Superior</strong> means above, while <strong>inferior</strong> means below. For example, the head is superior to the neck.
+                    </p>
+
+                    <p>
+                        <strong>Anterior (ventral)</strong> refers to the front of the body, while <strong>posterior (dorsal)</strong> refers to the back. The chest is anterior to the spine. <strong>Medial</strong> means toward the midline, and <strong>lateral</strong> means away from the midline.
+                    </p>
+
+                    <!-- Middle Image Between Paragraphs -->
+                    <div class="inline-image">
+                        <!-- <img src="/image_folder/plane2.png" alt="Directional Terms in Anatomy"> -->
+                        <!-- <p class="inline-image-caption">
+                            Figure 2: Directional anatomical terms showing superior, inferior, anterior, posterior, medial, and lateral positions
+                        </p> -->
+                    </div>
+
+                    <p>
+                        <strong>Proximal</strong> means closer to the point of attachment or origin, while <strong>distal</strong> means farther away. For example, the elbow is proximal to the wrist, and the wrist is distal to the elbow.
+                    </p>
+
+                    <p>
+                        <strong>Superficial</strong> describes a position closer to the surface of the body, and <strong>deep</strong> describes a position farther from the surface. The skin is superficial to the muscles, and the bones are deep to the muscles.
+                    </p>
+
+                    <div class="clinical-note">
+                        <h4>⚕️ Clinical Relevance</h4>
+                        <p>
+                            Understanding anatomical position and directional terms is essential for accurate medical documentation, communication between healthcare professionals, and precise surgical planning. Misinterpretation of these terms can lead to serious medical errors.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Right Side: Image/Diagram -->
+                <!-- <div class="image-content">
+                    <div class="diagram-container">
+                        <img src="/image_folder/nerve_fullBody.jpg" alt="Anatomical Position - Front and Back View">
+                        <p class="image-caption">
+                            Figure 1: Anatomical position showing anterior (front) and posterior (back) views with labeled anatomical terms
+                        </p>
+                    </div>
+                </div> -->
+
+            </div>
+
+            <!-- Navigation Buttons -->
+            <!-- <div class="article-navigation">
+                <a href="#" class="nav-btn btn-prev">← Previous: Introduction to Anatomy</a>
+                <a href="#" class="nav-btn btn-next">Next: Body Cavities →</a>
+            </div> -->
+
+        </article>
+
+        <!-- Additional Full-Width Section (Optional) -->
+        <!-- <article class="article-section">
+            <div class="full-width-content">
+                <h2>Regional Terms</h2>
+                <p>
+                    Certain directional anatomical terms appear throughout this and any other anatomy textbook. These terms are essential for describing the relative locations of different body structures. For instance, an anatomist might describe one band of tissue as "inferior to" another or a physician might describe a tumor as "superficial to" a deeper body structure.
+                </p> -->
+
+                <!-- Large Center Image -->
+                <!-- <div class="center-image-large">
+                    <img src="/images/body-regions-diagram.jpg" alt="Body Regions and Anatomical Terms">
+                    <p class="inline-image-caption">
+                        Figure 3: Major body regions with regional anatomical terminology
+                    </p>
+                </div>
+
+                <p>
+                    Commit these terms to memory to avoid confusion when you are studying or describing the locations of particular body parts. Remember that directional terms are always in relation to anatomical position, regardless of how the body is actually positioned.
+                </p>
+            </div>
+        </article> -->
+
+    
+<!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TeachMe Anatomy</h4>
+                    <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Student Resources</a></li>
+                        <li><a href="#">Educator Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+<a href="https://facebook.com" target="_blank">
+    <i class="fab fa-facebook fa-2x"></i>
+</a>
+                        <a href="https://twitter.com" target="_blank">
+    <i class="fab fa-twitter fa-2x"></i>
+</a>
+
+<a href="https://instagram.com" target="_blank">
+    <i class="fab fa-instagram fa-2x"></i>
+</a>
+
+<a href="https://linkedin.com" target="_blank">
+    <i class="fab fa-linkedin fa-2x"></i>
+</a>
+ </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+<script src="js/main.js"></script>

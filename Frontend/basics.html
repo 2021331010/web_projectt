@@ -171,6 +171,98 @@ model-viewer {
         padding: 8px 12px;
     }
 }
+
+/* START: Clickable 2-column category cards (replace images as needed)  */
+
+/* Container: two columns */
+.topics-two-column {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+  align-items: center;
+  padding: 24px 0;
+}
+
+/* Single card as clickable link */
+.topic-card {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 16px;
+  border-radius: 12px;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  background: transparent;
+}
+
+/* Hover / focus */
+.topic-card:hover,
+.topic-card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(16,24,40,0.08);
+  background: rgba(0,0,0,0.01);
+  outline: none;
+}
+
+/* Circular image container */
+.icon-circle {
+  flex: 0 0 150px; /* fixed circle size */
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+  overflow: hidden;
+}
+
+/* Image inside circle (cover) */
+.icon-circle img {
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Content (title + list) */
+.topic-content h3 {
+  font-size: 28px;
+  margin: 0 0 10px 0;
+  color: #0f172a; /* dark slate */
+}
+
+.topic-content .topic-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+  line-height: 1.8;
+}
+
+/* small bullet style */
+.topic-content .topic-list li {
+  margin-bottom: 6px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .topics-two-column {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .icon-circle {
+    width: 120px;
+    height: 120px;
+    flex: 0 0 120px;
+  }
+
+  .topic-content h3 {
+    font-size: 22px;
+  }
+}
+
     </style>
 </head>
 <body>
@@ -202,10 +294,10 @@ model-viewer {
         </div>
 
         <div class="header-links">
-            <a href="#">Spotter</a>
+            <!-- <a href="#">Spotter</a> -->
             <a href="#">Question Bank</a>
-            <a href="#">Flashcards</a>
-            <a href="#">Pricing</a>
+            <!-- <a href="#">Flashcards</a> -->
+            <!-- <a href="#">Pricing</a> -->
 
             <!-- Auth Buttons (Dynamic) -->
             <div id="authButtons">
@@ -278,7 +370,9 @@ model-viewer {
             <!-- Left Side: Text Content -->
             <div class="overview-text">
                 <h2>Overview</h2>
-                <p>The fundamentals of human anatomy underpin every area of medical education and clinical practice. This section provides a structured introduction to the key concepts required to study the body effectively, including anatomical terminology, planes, movements and positional terms.</p>
+                <p>
+                   The human body is a highly organized structure made up of cells, tissues, organs, and systems that work together to sustain life. Cells form the basic building blocks, while tissues group together to perform specialized functions. These tissues combine to create organs such as the heart, lungs, and brain, each essential for survival. Organ systems like the skeletal, muscular, cardiovascular, and nervous systems interact closely to support movement, circulation, sensation, and coordination. The skeletal system provides a strong framework and protection for vital organs, and the muscular system enables movement and posture. The nervous system controls body functions through rapid communication signals. The cardiovascular and respiratory systems work together to deliver oxygen and nutrients while removing waste products. The digestive system processes food for energy, and the urinary system maintains fluid balance and filters toxins. Hormones from the endocrine system regulate growth, metabolism, and reproduction, while the immune system defends against infections. All these systems function in harmony to maintain homeostasis, ensuring internal stability and overall health.
+                </p>
                 
                 <div class="expandable-text">
                     <h2>Key Structures</h2>
@@ -287,71 +381,17 @@ model-viewer {
                     <h2>Clinical Relevance and Learning Focus</h2>
                     <p>A strong grasp of the basics supports accurate clinical reasoning, communication and examination skills. The content in this section provides the essential anatomical framework used to interpret pathology, understand surgical approaches and explain imaging findings.</p>
                     
-                    <p class="read-less-link"><a href="javascript:void(0)">- Read less</a></p>
+                   
                 </div>
                 
-                <p class="read-more-link"><a href="javascript:void(0)">+ Read more</a></p>
+                
             </div>
 
-            <!-- Right Side: 3D Model with Hotspots -->
-            <!-- <div class="model-viewer-container"> -->
-                <!-- <model-viewer 
-                    src="../blender_models/compressed_brain.glb"
-                    alt="Human Body 3D Model"
-                    auto-rotate
-                    rotation-per-second="20deg"
-                    camera-orbit="0deg 75deg 2m"
-                    field-of-view="30deg"
-                    shadow-intensity="1"
-                    camera-controls
-                    interaction-prompt="none">
-                    
-                     Hotspot 1: Head
-                    <button class="hotspot" slot="hotspot-1" data-position="0 1.6 0.1" data-normal="0 0 1">
-                        <div class="hotspot-annotation">
-                            <h4>Head & Skull</h4>
-                            <p>Cranium and facial bones</p>
-                        </div>
-                    </button>
-
-                    <!-- Hotspot 2: Thorax 
-                    <button class="hotspot" slot="hotspot-2" data-position="0 1.0 0.15" data-normal="0 0 1">
-                        <div class="hotspot-annotation">
-                            <h4>Thorax</h4>
-                            <p>Ribcage and chest cavity</p>
-                        </div>
-                    </button>
-
-                    <!-- Hotspot 3: Abdomen 
-                    <button class="hotspot" slot="hotspot-3" data-position="0 0.5 0.15" data-normal="0 0 1">
-                        <div class="hotspot-annotation">
-                            <h4>Abdomen</h4>
-                            <p>Digestive organs region</p>
-                        </div>
-                    </button>
-
-                    <!-- Hotspot 4: Upper Limb 
-                    <button class="hotspot" slot="hotspot-4" data-position="0.4 1.0 0.1" data-normal="1 0 0">
-                        <div class="hotspot-annotation">
-                            <h4>Upper Limb</h4>
-                            <p>Arm and shoulder</p>
-                        </div>
-                    </button>
-
-                    <!-- Hotspot 5: Lower Limb 
-                    <button class="hotspot" slot="hotspot-5" data-position="0.2 0.0 0.1" data-normal="0 -1 0">
-                        <div class="hotspot-annotation">
-                            <h4>Lower Limb</h4>
-                            <p>Leg and hip region</p>
-                        </div>
-                    </button>
-                </model-viewer> 
-            </div>-->
-            <!-- RIGHT SIDE: 3D MODEL WITH HOTSPOTS -->
+           
 <div class="model-viewer-container">
   <model-viewer
     id="anatomyModel"
-    src="../blender_models/compressed_brain.glb"   
+    src="../blender_models/compressed_neuron.glb"   
     alt="Human Body 3D Model"
     auto-rotate
     rotation-per-second="20deg"
@@ -363,7 +403,7 @@ model-viewer {
     exposure="1"
     style="background: transparent;"
   >
- 
+    
   </model-viewer>
 </div>
 
@@ -375,174 +415,105 @@ model-viewer {
     <section class="topics-grid-section">
         <div class="container">
             <div class="topics-two-column">
-                <!-- Learning Anatomy -->
-                <div class="topic-category">
-                    <div class="category-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="25" cy="15" r="6" stroke="#00d4aa" stroke-width="2" fill="none"/>
-                            <path d="M25 22 L25 42 M18 28 L25 28 L32 28 M18 38 L25 38 L32 38" stroke="#00d4aa" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>Learning Anatomy</h3>
-                    <ul class="topic-list">
-                        <li><a href="#">Organs</a></li>
-                        <li><a href="#">Vascular System</a></li>
-                        <li><a href="#">+4 more</a></li>
-                    </ul>
-                </div>
+  <!-- Card 1 -->
+  <a class="topic-card" href="Subpages/basic_terminology.html" aria-label="Areas — view details">
+    <div class="icon-circle">
+      <!-- replace src with your image path -->
+      <img src="/icon_folder/b1.png" alt="Areas illustration">
+    </div>
+    <div class="topic-content">
+       
+      <h3>Basic Terminology</h3>
+      <ul class="topic-list">
+        
+        <!-- <li>Anatomical Position</li>
+        <li>Body Planes</li> 
+         <li>Terms of Movements</li> -->
+       </ul>
+    </div> 
+  </a>
 
-                <!-- Anatomical Terms -->
-                <div class="topic-category">
-                    <div class="category-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M25 10 Q30 15 25 20 Q20 15 25 10" stroke="#00d4aa" stroke-width="2" fill="none"/>
-                            <ellipse cx="25" cy="30" rx="12" ry="8" stroke="#00d4aa" stroke-width="2" fill="none"/>
-                        </svg>
-                    </div>
-                    <h3>Anatomical Terms</h3>
-                    <ul class="topic-list">
-                        <li><a href="#">Terms of Location in Embryology</a></li>
-                        <li><a href="#">Anatomical Terms of Movement</a></li>
-                        <li><a href="#">+3 more</a></li>
-                    </ul>
-                </div>
+  <!-- Card 2 -->
+  <a class="topic-card" href="Subpages/" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/b3.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Systems</h3>
+      <ul class="topic-list">
+        <li>Nervous System</li>
+        <li>Skeletal System</li>
+        <li>Muscular System</li> 
+         <li>Muscular System</li>
+      </ul>
+    </div>
+  </a>
+   <!-- Card 3 -->
+  <a class="topic-card" href="/bones.html" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/b2.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Joints</h3>
+      <ul class="topic-list">
+        <li>Classification</li>
+        <li>Synovial Joint</li>
+        <!-- <li>+10 more</li> -->
+      </ul>
+    </div>
+  </a>
+   <!-- Card 4 -->
+  <a class="topic-card" href="/bones.html" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/b4.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Blood</h3>
+      <ul class="topic-list">
+        <!-- <li>Blood Supply</li>
+        <li>Scalp (Layers)</li> -->
+        
+      </ul>
+    </div>
+  </a>
+   <!-- Card 5 -->
 
-                <!-- Joints -->
-                <div class="topic-category">
-                    <div class="category-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="25" cy="25" r="8" stroke="#00d4aa" stroke-width="2" fill="none"/>
-                            <line x1="25" y1="10" x2="25" y2="17" stroke="#00d4aa" stroke-width="2.5" stroke-linecap="round"/>
-                            <line x1="25" y1="33" x2="25" y2="40" stroke="#00d4aa" stroke-width="2.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>Joints</h3>
-                    <ul class="topic-list">
-                        <li><a href="#">Classification of Joints</a></li>
-                        <li><a href="#">Joint Stability</a></li>
-                        <li><a href="#">+1 more</a></li>
-                    </ul>
-                </div>
+  <!-- <a class="topic-card" href="/bones.html" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/b5.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Other Parts</h3>
+      <ul class="topic-list">
+        <li>Blood Supply</li>
+        <li>Scalp (Layers)</li>
+        
+      </ul>
+    </div>
+  </a> -->
 
-                <!-- Body Systems -->
-                <div class="topic-category">
-                    <div class="category-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M25 10 L25 20 M15 20 L35 20 M15 25 L35 25 M15 30 L35 30 M15 35 L35 35" stroke="#00d4aa" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>Body Systems</h3>
-                    <ul class="topic-list">
-                        <li><a href="#">The Sympathetic Nervous System</a></li>
-                        <li><a href="#">The Parasympathetic Nervous System</a></li>
-                    </ul>
-                </div>
+   <!-- Card 6 -->
 
-                <!-- Tissue Ultrastructure -->
-                <div class="topic-category">
-                    <div class="category-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="15" y="15" width="20" height="20" rx="3" stroke="#00d4aa" stroke-width="2" fill="none"/>
-                            <circle cx="25" cy="22" r="3" fill="#00d4aa"/>
-                            <circle cx="20" cy="28" r="2" fill="#00d4aa"/>
-                            <circle cx="30" cy="28" r="2" fill="#00d4aa"/>
-                        </svg>
-                    </div>
-                    <h3>Tissue Ultrastructure</h3>
-                    <ul class="topic-list">
-                        <li><a href="#">The Hair Follicle</a></li>
-                        <li><a href="#">Ultrastructure of Skin</a></li>
-                        <li><a href="#">+5 more</a></li>
-                    </ul>
-                </div>
+  <!-- <a class="topic-card" href="/bones.html" aria-label="Bones — view details">
+    <div class="icon-circle">
+      <img src="/icon_folder/b6.png" alt="Bones illustration">
+    </div>
+    <div class="topic-content">
+      <h3>Other Parts</h3>
+      <ul class="topic-list">
+        <li>Blood Supply</li>
+        <li>Scalp (Layers)</li>
+        
+      </ul>
+    </div>
+  </a> -->
 
-                <!-- Embryology -->
-                <div class="topic-category">
-                    <div class="category-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <ellipse cx="25" cy="28" rx="10" ry="15" stroke="#00d4aa" stroke-width="2" fill="none"/>
-                            <circle cx="25" cy="20" r="3" fill="#00d4aa"/>
-                            <circle cx="20" cy="28" r="2" fill="#00d4aa"/>
-                            <circle cx="30" cy="28" r="2" fill="#00d4aa"/>
-                        </svg>
-                    </div>
-                    <h3>Embryology</h3>
-                    <ul class="topic-list">
-                        <li><a href="#">The Pituitary, Tongue and Thyroid</a></li>
-                        <li><a href="#">The Face and Palate</a></li>
-                        <li><a href="#">+12 more</a></li>
-                    </ul>
-                </div>
-
-                <!-- Imaging Modalities -->
-                <div class="topic-category">
-                    <div class="category-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="12" y="15" width="26" height="20" rx="2" stroke="#00d4aa" stroke-width="2" fill="none"/>
-                            <path d="M20 22 L20 28 M23 22 L23 28 M26 22 L26 28 M29 22 L29 28" stroke="#00d4aa" stroke-width="1.5"/>
-                        </svg>
-                    </div>
-                    <h3>Imaging Modalities</h3>
-                    <ul class="topic-list">
-                        <li><a href="#">Plain Film X-Ray</a></li>
-                        <li><a href="#">Computed Tomography (CT) Scanning</a></li>
-                        <li><a href="#">+1 more</a></li>
-                    </ul>
-                </div>
-            </div>
+  
+</div>
         </div>
     </section>
 
-    <!-- Popular Section -->
-    <section class="popular-section">
-        <div class="container">
-            <h2>Popular</h2>
-            
-            <div class="popular-grid">
-                <article class="popular-card">
-                    <div class="popular-image">
-                        <svg width="100%" height="100%" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="400" height="250" fill="#f0f0f0"/>
-                            <text x="200" y="125" text-anchor="middle" fill="#999" font-size="16">Anatomical Illustration</text>
-                        </svg>
-                    </div>
-                    <div class="popular-content">
-                        <p class="popular-category">ENCYCLOPAEDIA</p>
-                        <h3>Great Auricular Nerve</h3>
-                        <p class="popular-author">by Amber Kraczkowska</p>
-                    </div>
-                </article>
-
-                <article class="popular-card">
-                    <div class="popular-image">
-                        <svg width="100%" height="100%" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="400" height="250" fill="#f0f0f0"/>
-                            <text x="200" y="125" text-anchor="middle" fill="#999" font-size="16">Anatomical Illustration</text>
-                        </svg>
-                    </div>
-                    <div class="popular-content">
-                        <p class="popular-category">ENCYCLOPAEDIA</p>
-                        <h3>Inferior Rectal Nerve</h3>
-                        <p class="popular-author">by Muhammed Owais Patel</p>
-                    </div>
-                </article>
-
-                <article class="popular-card">
-                    <div class="popular-image">
-                        <svg width="100%" height="100%" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="400" height="250" fill="#f0f0f0"/>
-                            <text x="200" y="125" text-anchor="middle" fill="#999" font-size="16">Anatomical Illustration</text>
-                        </svg>
-                    </div>
-                    <div class="popular-content">
-                        <p class="popular-category">ENCYCLOPAEDIA</p>
-                        <h3>Posterior Cutaneous Nerve of the Thigh</h3>
-                        <p class="popular-author">by Mihir Himanshu Majeethia</p>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
+    
 <!-- Footer -->
   <footer>
         <div class="container">

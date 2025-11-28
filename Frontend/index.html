@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
+     
+
 /* 3D model section css */
 .hero-model-container {
     width: 100%;
@@ -74,10 +76,12 @@
             </div>
 
             <div class="header-links">
-                <a href="#">Spotter</a>
-                <a href="#">Question Bank</a>
-                <a href="#">Flashcards</a>
-                <a href="#">Pricing</a>
+            <!-- <a href="#">Spotter</a> -->
+            <a href="#">Question Bank</a>
+            <!-- <a href="#">Flashcards</a> -->
+            <!-- <a href="#">Pricing</a> -->
+
+            <!-- Auth Buttons (Dynamic) -->
                 <div id="authButtons">
                     <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
                 </div>
@@ -96,10 +100,11 @@
                 <li><a href="lower-limb.html">Lower Limb</a></li>
                 <li><a href="abdomen.html">Abdomen</a></li>
                 <li><a href="pelvis.html">Pelvis</a></li>
-                <li><a href="3d-body.html">3D Body</a></li>
+                <li><a href="3d_parts.html">3D Body</a></li>
             </ul>
         </nav>
     </header>
+   
 
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
@@ -135,37 +140,16 @@
     <!-- Hero Section -->
   <!-- 3D Model Container (Replace hero-image div) -->
 <div class="hero-model-container">
-    <model-viewer 
+  
+
+   <model-viewer 
     src="/blender_models/compressed_full_body.glb"
     auto-rotate
     rotation-per-second="25deg">
 </model-viewer>
 </div>
 
-    <!-- Testimonials Section -->
-    <!-- <section class="testimonials-section">
-        <div class="container">
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <h4>Essential for exam prep!</h4>
-                    <p>"TeachMeAnatomy Pro made a huge difference in my first year. The diagrams are so clear, and the quizzes helped me retain key info for exams. It's easy to use, even on my phone, and way less overwhelming than textbooks. Totally worth it!"</p>
-                </div>
 
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <h4>Fast, focused, and practical</h4>
-                    <p>"Exactly what I need when revising on a tight schedule. The content is concise, clinically relevant, and great for quick refreshers before theatre or during MRCS prep. I use it almost daily"</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <h4>A brilliant teaching resource</h4>
-                    <p>"I use TeachMeAnatomy Pro to enhance my lectures and recommend it to students. The diagrams and 3D views are excellent, and it saves me time when preparing materials. It's a reliable, student-friendly tool I trust."</p>
-                </div>
-            </div>
-        </div>
-    </section> -->
 
     <!-- Explore Topics Section -->
     <section class="explore-section">
@@ -369,7 +353,7 @@
             </div>
         </div>
     </section>
-
+   
     <!-- Footer -->
     <footer>
         <div class="container">
