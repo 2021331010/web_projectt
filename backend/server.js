@@ -29,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 // Routes
 app.use('/api/auth', require('./routes/Auth'));
 app.use('/api/comments', require('./routes/Comment'));
+app.use('/api/quiz', require('./routes/Quiz'));
 
 app.get('/', (req, res) => {
   res.json({
@@ -48,6 +49,14 @@ app.get('/', (req, res) => {
         postComment: 'POST /api/comments',
         deleteComment: 'DELETE /api/comments/:id',
         likeComment: 'POST /api/comments/:id/like'
+      },
+      quiz: {
+        getAllQuizzes: 'GET /api/quiz',
+        getQuiz: 'GET /api/quiz/:id',
+        startQuiz: 'POST /api/quiz/:id/start',
+        submitQuiz: 'POST /api/quiz/:id/submit',
+        getResults: 'GET /api/quiz/attempt/:attemptId/results',
+        createQuiz: 'POST /api/quiz/create'
       },
       health: 'GET /api/health'
     },
@@ -115,6 +124,14 @@ const startServer = async () => {
       console.log('   POST   /api/comments');
       console.log('   DELETE /api/comments/:id');
       console.log('   POST   /api/comments/:id/like');
+      console.log('');
+      console.log('   QUIZ:');
+      console.log('   GET    /api/quiz');
+      console.log('   GET    /api/quiz/:id');
+      console.log('   POST   /api/quiz/:id/start');
+      console.log('   POST   /api/quiz/:id/submit');
+      console.log('   GET    /api/quiz/attempt/:attemptId/results');
+      console.log('   POST   /api/quiz/create');
       console.log('');
       console.log('   HEALTH:');
       console.log('   GET    /api/health');

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Quiz Panel - TeachMe Anatomy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Header */
+        header {
+            background: #000;
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+        }
+
+        .logo span:last-child {
+            color: #00d4aa;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Page Title */
+        .page-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .page-title h1 {
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .page-title p {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.95;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 60px 40px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #667eea;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Question Builder */
+        .question-item {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .btn-remove-question {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-remove-question:hover {
+            background: #ff5252;
+        }
+
+        .option-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .option-input {
+            flex: 1;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .radio-label input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #1a1a1a;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a896 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 212, 170, 0.4);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><span>TeachMe</span><span>Anatomy</span></h1>
+                </div>
+                <div class="admin-badge">
+                    <i class="fas fa-shield-alt"></i> Admin Panel
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1><i class="fas fa-plus-circle"></i> Create New Quiz</h1>
+        <p>Build engaging quizzes for your students</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Alert Messages -->
+            <div id="alertSuccess" class="alert alert-success">
+                <i class="fas fa-check-circle"></i> Quiz created successfully!
+            </div>
+            <div id="alertError" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> <span id="errorMessage">Something went wrong!</span>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: #666;">Creating quiz...</p>
+            </div>
+
+            <!-- Quiz Form -->
+            <form id="quizForm">
+                <!-- Basic Information -->
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Basic Information
+                    </h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Quiz Title *</label>
+                        <input type="text" class="form-input" id="quizTitle" required 
+                               placeholder="e.g., Head Anatomy Quiz">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="quizDescription" 
+                                  placeholder="Provide a brief description of the quiz..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <select class="form-select" id="quizCategory" required>
+                                <option value="">Select category</option>
+                                <option value="Head">Head</option>
+                                <option value="Neck">Neck</option>
+                                <option value="Thorax">Thorax</option>
+                                <option value="Abdomen">Abdomen</option>
+                                <option value="Pelvis">Pelvis</option>
+                                <option value="Neuroanatomy">Neuroanatomy</option>
+                                <option value="Muscular System">Muscular System</option>
+                                <option value="Respiratory">Respiratory System</option>
+                                <option value="Kidney">Kidney</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Duration (minutes) *</label>
+                            <input type="number" class="form-input" id="quizDuration" 
+                                   value="10" min="1" max="120" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Passing Score (%) *</label>
+                            <input type="number" class="form-input" id="passingScore" 
+                                   value="60" min="0" max="100" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questions Section -->
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-list-ol"></i>
+                        Questions
+                    </h2>
+
+                    <div id="questionsContainer"></div>
+
+                    <button type="button" class="btn btn-secondary" onclick="addQuestion()">
+                        <i class="fas fa-plus"></i> Add Question
+                    </button>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Create Quiz
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let questionCount = 0;
+
+        // Add first question on load
+        window.addEventListener('DOMContentLoaded', () => {
+            addQuestion();
+        });
+
+        function addQuestion() {
+            questionCount++;
+            const container = document.getElementById('questionsContainer');
+            
+            const questionHTML = `
+                <div class="question-item" id="question-${questionCount}">
+                    <div class="question-header">
+                        <div class="question-number">Question ${questionCount}</div>
+                        <button type="button" class="btn-remove-question" onclick="removeQuestion(${questionCount})">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Question Text *</label>
+                        <textarea class="form-textarea" id="questionText-${questionCount}" 
+                                  required placeholder="Enter your question here..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Options *</label>
+                        <div class="option-group">
+                            <input type="text" class="form-input option-input" 
+                                   id="option-${questionCount}-0" required placeholder="Option A">
+                            <label class="radio-label">
+                                <input type="radio" name="correct-${questionCount}" value="0" required>
+                                <span>Correct</span>
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <input type="text" class="form-input option-input" 
+                                   id="option-${questionCount}-1" required placeholder="Option B">
+                            <label class="radio-label">
+                                <input type="radio" name="correct-${questionCount}" value="1">
+                                <span>Correct</span>
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <input type="text" class="form-input option-input" 
+                                   id="option-${questionCount}-2" required placeholder="Option C">
+                            <label class="radio-label">
+                                <input type="radio" name="correct-${questionCount}" value="2">
+                                <span>Correct</span>
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <input type="text" class="form-input option-input" 
+                                   id="option-${questionCount}-3" required placeholder="Option D">
+                            <label class="radio-label">
+                                <input type="radio" name="correct-${questionCount}" value="3">
+                                <span>Correct</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Explanation (Optional)</label>
+                        <textarea class="form-textarea" id="explanation-${questionCount}" 
+                                  placeholder="Explain the correct answer..."></textarea>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', questionHTML);
+        }
+
+        function removeQuestion(id) {
+            if (questionCount <= 1) {
+                showAlert('error', 'At least one question is required!');
+                return;
+            }
+            
+            const element = document.getElementById(`question-${id}`);
+            element.remove();
+            updateQuestionNumbers();
+        }
+
+        function updateQuestionNumbers() {
+            const questions = document.querySelectorAll('.question-item');
+            questions.forEach((q, index) => {
+                const numberDiv = q.querySelector('.question-number');
+                numberDiv.textContent = `Question ${index + 1}`;
+            });
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
+                document.getElementById('quizForm').reset();
+                document.getElementById('questionsContainer').innerHTML = '';
+                questionCount = 0;
+                addQuestion();
+            }
+        }
+
+        function showAlert(type, message) {
+            const alertSuccess = document.getElementById('alertSuccess');
+            const alertError = document.getElementById('alertError');
+            
+            if (type === 'success') {
+                alertSuccess.classList.add('show');
+                setTimeout(() => alertSuccess.classList.remove('show'), 5000);
+            } else {
+                document.getElementById('errorMessage').textContent = message;
+                alertError.classList.add('show');
+                setTimeout(() => alertError.classList.remove('show'), 5000);
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Form submission
+        document.getElementById('quizForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showAlert('error', 'Please login as admin to create quiz');
+                return;
+            }
+
+            // Collect form data
+            const title = document.getElementById('quizTitle').value;
+            const description = document.getElementById('quizDescription').value;
+            const category = document.getElementById('quizCategory').value;
+            const duration = parseInt(document.getElementById('quizDuration').value) * 60;
+            const passingScore = parseInt(document.getElementById('passingScore').value);
+
+            // Collect questions
+            const questions = [];
+            const questionElements = document.querySelectorAll('.question-item');
+            
+            questionElements.forEach((qEl, index) => {
+                const qId = qEl.id.split('-')[1];
+                const questionText = document.getElementById(`questionText-${qId}`).value;
+                const explanation = document.getElementById(`explanation-${qId}`).value;
+                
+                const options = [
+                    document.getElementById(`option-${qId}-0`).value,
+                    document.getElementById(`option-${qId}-1`).value,
+                    document.getElementById(`option-${qId}-2`).value,
+                    document.getElementById(`option-${qId}-3`).value
+                ];
+                
+                const correctAnswer = parseInt(document.querySelector(`input[name="correct-${qId}"]:checked`).value);
+                
+                questions.push({
+                    questionText,
+                    questionType: 'multiple-choice',
+                    options,
+                    correctAnswer,
+                    explanation: explanation || null,
+                    points: 1
+                });
+            });
+
+            // Validate
+            if (questions.length === 0) {
+                showAlert('error', 'Please add at least one question');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('quizForm').style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/quiz/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        title,
+                        description,
+                        category,
+                        duration,
+                        passingScore,
+                        questions
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('success', 'Quiz created successfully!');
+                    setTimeout(() => {
+                        window.location.href = 'quiz.html';
+                    }, 2000);
+                } else {
+                    showAlert('error', data.message || 'Failed to create quiz');
+                    document.getElementById('quizForm').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('error', 'Network error. Please try again.');
+                document.getElementById('quizForm').style.display = 'block';
+            } finally {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

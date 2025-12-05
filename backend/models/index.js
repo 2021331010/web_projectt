@@ -4,8 +4,11 @@ const { sequelize } = require('../config/database');
 // Import Models
 const User = require('./user')(sequelize, DataTypes);
 const Comment = require('./Comment')(sequelize, DataTypes);
+const Quiz = require('./Quiz')(sequelize, DataTypes);           // ⭐ নতুন
+const Question = require('./Question')(sequelize, DataTypes);   // ⭐ নতুন
+const QuizAttempt = require('./QuizAttempt')(sequelize, DataTypes); // ⭐ নতুন
 
-// Associations
+// User - Comment Associations
 User.hasMany(Comment, {
   foreignKey: 'userId',
   as: 'comments',
@@ -17,8 +20,47 @@ Comment.belongsTo(User, {
   as: 'user'
 });
 
+// Quiz - Question Associations
+Quiz.hasMany(Question, {
+  foreignKey: 'quizId',
+  as: 'questions',
+  onDelete: 'CASCADE'
+});
+
+Question.belongsTo(Quiz, {
+  foreignKey: 'quizId',
+  as: 'quiz'
+});
+
+// User - QuizAttempt Associations
+User.hasMany(QuizAttempt, {
+  foreignKey: 'userId',
+  as: 'quizAttempts',
+  onDelete: 'CASCADE'
+});
+
+QuizAttempt.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'user'
+});
+
+// Quiz - QuizAttempt Associations
+Quiz.hasMany(QuizAttempt, {
+  foreignKey: 'quizId',
+  as: 'attempts',
+  onDelete: 'CASCADE'
+});
+
+QuizAttempt.belongsTo(Quiz, {
+  foreignKey: 'quizId',
+  as: 'quiz'
+});
+
 module.exports = {
-  sequelize,  // ✅ শুধু এইটুকু
+  sequelize,
   User,
-  Comment
+  Comment,
+  Quiz,          // ⭐ export করুন
+  Question,      // ⭐ export করুন
+  QuizAttempt    // ⭐ export করুন
 };
