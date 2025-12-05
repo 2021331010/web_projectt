@@ -1,11 +1,7 @@
-// ==========================================
-// API Configuration
-// ==========================================
+
 const API_URL = 'http://localhost:5000/api';
 
-// ==========================================
 // Toggle Topics Function
-// ==========================================
 function toggleTopics() {
     const additionalTopics = document.getElementById('additionalTopics');
     const viewAllBtn = document.getElementById('viewAllBtn');
@@ -23,9 +19,8 @@ function toggleTopics() {
     }
 }
 
-// ==========================================
 // Check Authentication Status on Load
-// ==========================================
+
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthStatus();
 });
@@ -66,9 +61,8 @@ function showLoginButton() {
     authButtons.innerHTML = '<a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>';
 }
 
-// ==========================================
 // Modal Functions
-// ==========================================
+
 function openLoginModal() {
     document.getElementById('loginModal').style.display = 'block';
 }
@@ -98,7 +92,6 @@ function switchToLogin() {
     closeRegisterModal();
     openLoginModal();
 }
-
 // Close modal on outside click
 window.onclick = (event) => {
     const loginModal = document.getElementById('loginModal');
@@ -107,9 +100,8 @@ window.onclick = (event) => {
     if (event.target == registerModal) closeRegisterModal();
 };
 
-// ==========================================
+
 // Login Functionality
-// ==========================================
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('loginEmail').value.trim();
@@ -131,7 +123,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
         if (response.ok) {
             messageEl.style.color = '#10b981';
-            messageEl.textContent = '✅ Login successful! Redirecting...';
+            messageEl.textContent = 'Login successful! Redirecting...';
 
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('user', JSON.stringify(data.data.user));
@@ -149,15 +141,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     } catch (error) {
         console.error('Login error:', error);
         messageEl.style.color = '#ef4444';
-        messageEl.textContent = '❌ Cannot connect to server. Please ensure backend is running.';
+        messageEl.textContent = 'Cannot connect to server. Please ensure backend is running.';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Login';
     }
 });
 
-// ==========================================
+
 // Register Functionality
-// ==========================================
+
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('registerName').value.trim();
@@ -168,7 +160,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
     if (password.length < 6) {
         messageEl.style.color = '#ef4444';
-        messageEl.textContent = '❌ Password must be at least 6 characters';
+        messageEl.textContent = ' Password must be at least 6 characters';
         return;
     }
 
@@ -210,9 +202,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     }
 });
 
-// ==========================================
 // Logout Functionality
-// ==========================================
+
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('token');
@@ -221,12 +212,7 @@ function logout() {
         location.reload();
     }
 }
-
-// ==========================================
 // COMMENTS FUNCTIONALITY with View All
-// ==========================================
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const commentForm = document.getElementById('commentForm');
     const commentText = document.getElementById('commentText');
@@ -284,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('✅ Comment posted successfully!');
         } catch (err) {
             console.error(err);
-            alert('❌ Failed to post comment. Please try again.');
+            alert('Failed to post comment. Please try again.');
         } finally {
             toggleButton(submitBtn, false);
         }
