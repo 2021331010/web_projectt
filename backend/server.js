@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
         likeComment: 'POST /api/comments/:id/like'
       },
       quiz: {
-        getAllQuizzes: 'GET /api/quiz',
+        getAllQuizzes: 'GET /api/Quiz',
         getQuiz: 'GET /api/quiz/:id',
         startQuiz: 'POST /api/quiz/:id/start',
         submitQuiz: 'POST /api/quiz/:id/submit',
