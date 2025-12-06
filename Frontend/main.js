@@ -45,7 +45,7 @@ async function checkAuthStatus() {
                 const user = data.data.user;
                 authButtons.innerHTML = `
                     <span style="color: white; margin-right: 15px; font-size: 15px;">
-                        👋 Welcome, ${user.name}
+                         👋 Welcome, ${user.name}
                     </span>
                     <a href="#" onclick="logout()" class="login-btn">Logout</a>
                 `;
