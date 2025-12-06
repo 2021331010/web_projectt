@@ -1,34 +1,39 @@
-module.exports = (sequelize, DataTypes) => {
+const { DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
   const QuizAttempt = sequelize.define('QuizAttempt', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id'
-      }
-    },
     quizId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Quizzes',
+        model: 'quizzes',
+        key: 'id'
+      }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
         key: 'id'
       }
     },
     startTime: {
       type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
+      allowNull: false
     },
     endTime: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    answers: {
+      type: DataTypes.JSON, // { questionId: userAnswer }
+      defaultValue: {}
     },
     score: {
       type: DataTypes.INTEGER,
@@ -42,17 +47,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    answers: {
-      type: DataTypes.JSON,
-      allowNull: true,
-      comment: 'Array of user answers with question IDs'
-    },
     status: {
-      type: DataTypes.ENUM('in-progress', 'completed', 'abandoned'),
+      type: DataTypes.ENUM('in-progress', 'completed', 'timeout'),
       defaultValue: 'in-progress'
+    },
+    timeTaken: {
+      type: DataTypes.INTEGER, // in seconds
+      allowNull: true
     }
   }, {
-    tableName: 'QuizAttempts',
+    tableName: 'quiz_attempts',
     timestamps: true
   });
 

@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const { sequelize } = require('./models');
 const { connectDB } = require('./config/database');
+const adminRoutes = require('./routes/admin');
+
 
 dotenv.config();
 
@@ -29,8 +31,9 @@ if (process.env.NODE_ENV === 'development') {
 // Routes
 app.use('/api/auth', require('./routes/Auth'));
 app.use('/api/comments', require('./routes/Comment'));
+// Add Quiz Routes
 app.use('/api/quiz', require('./routes/Quiz'));
-
+app.use('/api/admin', adminRoutes);
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -51,13 +54,14 @@ app.get('/', (req, res) => {
         likeComment: 'POST /api/comments/:id/like'
       },
       quiz: {
-        getAllQuizzes: 'GET /api/Quiz',
-        getQuiz: 'GET /api/quiz/:id',
-        startQuiz: 'POST /api/quiz/:id/start',
-        submitQuiz: 'POST /api/quiz/:id/submit',
-        getResults: 'GET /api/quiz/attempt/:attemptId/results',
-        createQuiz: 'POST /api/quiz/create'
-      },
+  createQuiz: 'POST /api/quiz',
+  addQuestion: 'POST /api/quiz/:quizId/question',
+  getAllQuizzes: 'GET /api/quiz',
+  getQuizById: 'GET /api/quiz/:id',
+  startQuiz: 'POST /api/quiz/:id/start',
+  submitQuiz: 'POST /api/quiz/attempt/:attemptId/submit',
+  myAttempts: 'GET /api/quiz/my/attempts'
+},
       health: 'GET /api/health'
     },
     timestamp: new Date().toISOString()

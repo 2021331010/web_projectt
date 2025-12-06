@@ -1,4 +1,6 @@
-module.exports = (sequelize, DataTypes) => {
+const { DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
   const Quiz = sequelize.define('Quiz', {
     id: {
       type: DataTypes.INTEGER,
@@ -6,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(200),
       allowNull: false
     },
     description: {
@@ -14,28 +16,42 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     category: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      comment: 'e.g., Head, Neck, Thorax, etc.'
+      type: DataTypes.ENUM(
+        'basics', 'head', 'neuroanatomy', 'neck', 'thorax',
+        'back', 'upper-limb', 'lower-limb', 'abdomen', 'pelvis', '3d-body'
+      ),
+      allowNull: false
     },
-    duration: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 600,
-      comment: 'Duration in seconds (default 10 minutes)'
+    difficulty: {
+      type: DataTypes.ENUM('beginner', 'intermediate', 'advanced'),
+      defaultValue: 'beginner'
+    },
+    timeLimit: {
+      type: DataTypes.INTEGER, // in minutes
+      defaultValue: 30
     },
     passingScore: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 60,
-      comment: 'Percentage required to pass'
+      type: DataTypes.INTEGER, // percentage
+      defaultValue: 60
     },
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    totalQuestions: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     }
   }, {
-    tableName: 'Quizzes',
+    tableName: 'quizzes',
     timestamps: true
   });
 

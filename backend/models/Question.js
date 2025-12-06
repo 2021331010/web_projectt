@@ -1,15 +1,17 @@
-module.exports = (sequelize, DataTypes) => {
-    const Question = sequelize.define('Question',{
-        id:{
-         type: DataTypes.INTEGER,
-         primaryKey: true,
+const { DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
+  const Question = sequelize.define('Question', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
       autoIncrement: true
-        },
-        quizId: {
+    },
+    quizId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Quizzes',
+        model: 'quizzes',
         key: 'id'
       }
     },
@@ -22,27 +24,29 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'multiple-choice'
     },
     options: {
-      type: DataTypes.JSON,
-      allowNull: false,
-      comment: 'Array of options: ["Option A", "Option B", "Option C", "Option D"]'
+      type: DataTypes.JSON, // ['Option A', 'Option B', 'Option C', 'Option D']
+      allowNull: false
     },
     correctAnswer: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      comment: 'Index of correct option (0-3)'
+      type: DataTypes.STRING(10), // 'A', 'B', 'C', 'D' or 'true', 'false'
+      allowNull: false
     },
     explanation: {
       type: DataTypes.TEXT,
-      allowNull: true,
-      comment: 'Explanation for the correct answer'
+      allowNull: true
     },
     points: {
       type: DataTypes.INTEGER,
       defaultValue: 1
+    },
+    orderIndex: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   }, {
-    tableName: 'Questions',
+    tableName: 'questions',
     timestamps: true
-    });
-    return Question;
+  });
+
+  return Question;
 };

@@ -1,52 +1,138 @@
 const { Quiz, Question, QuizAttempt, User } = require('../models');
 
-// Get all quizzes
-exports.getAllQuizzes = async (req, res) => {
+// @desc    Create a new quiz (Admin only)
+// @route   POST /api/quiz
+// @access  Private/Admin
+const createQuiz = async (req, res) => {
   try {
-    const quizzes = await Quiz.findAll({
-      where: { isActive: true },
-      include: [{
-        model: Question,
-        as: 'questions',
-        attributes: ['id']
-      }],
-      attributes: ['id', 'title', 'description', 'category', 'duration', 'passingScore']
+    const { title, description, category, difficulty, timeLimit, passingScore } = req.body;
+
+    if (!title || !category) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title and category are required'
+      });
+    }
+
+    const quiz = await Quiz.create({
+      title,
+      description,
+      category,
+      difficulty: difficulty || 'beginner',
+      timeLimit: timeLimit || 30,
+      passingScore: passingScore || 60,
+      createdBy: req.user.id
     });
 
-    const quizzesWithCount = quizzes.map(quiz => ({
-      id: quiz.id,
-      title: quiz.title,
-      description: quiz.description,
-      category: quiz.category,
-      duration: quiz.duration,
-      passingScore: quiz.passingScore,
-      totalQuestions: quiz.questions.length
-    }));
-
-    res.json({
+    res.status(201).json({
       success: true,
-      data: quizzesWithCount
+      message: 'Quiz created successfully',
+      data: { quiz }
     });
+
   } catch (error) {
-    console.error('Error fetching quizzes:', error);
+    console.error('❌ Create Quiz Error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching quizzes',
-      error: error.message
+      message: error.message || 'Error creating quiz'
     });
   }
 };
 
-// Get single quiz by ID
-exports.getQuizById = async (req, res) => {
+// @desc    Add question to quiz (Admin only)
+// @route   POST /api/quiz/:quizId/question
+// @access  Private/Admin
+const addQuestion = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { quizId } = req.params;
+    const { questionText, questionType, options, correctAnswer, explanation, points } = req.body;
 
-    const quiz = await Quiz.findByPk(id, {
+    if (!questionText || !options || !correctAnswer) {
+      return res.status(400).json({
+        success: false,
+        message: 'Question text, options, and correct answer are required'
+      });
+    }
+
+    const quiz = await Quiz.findByPk(quizId);
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: 'Quiz not found'
+      });
+    }
+
+    const question = await Question.create({
+      quizId,
+      questionText,
+      questionType: questionType || 'multiple-choice',
+      options,
+      correctAnswer,
+      explanation,
+      points: points || 1,
+      orderIndex: quiz.totalQuestions + 1
+    });
+
+    // Update quiz total questions
+    await quiz.increment('totalQuestions');
+
+    res.status(201).json({
+      success: true,
+      message: 'Question added successfully',
+      data: { question }
+    });
+
+  } catch (error) {
+    console.error('❌ Add Question Error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error adding question'
+    });
+  }
+};
+
+// @desc    Get all quizzes
+// @route   GET /api/quiz
+// @access  Public
+const getAllQuizzes = async (req, res) => {
+  try {
+    const { category, difficulty } = req.query;
+
+    const whereClause = { isActive: true };
+    if (category) whereClause.category = category;
+    if (difficulty) whereClause.difficulty = difficulty;
+
+    const quizzes = await Quiz.findAll({
+      where: whereClause,
+      attributes: { exclude: ['createdBy'] },
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.status(200).json({
+      success: true,
+      data: { quizzes, count: quizzes.length }
+    });
+
+  } catch (error) {
+    console.error('❌ Get Quizzes Error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching quizzes'
+    });
+  }
+};
+
+// @desc    Get quiz by ID with questions
+// @route   GET /api/quiz/:id
+// @access  Public
+const getQuizById = async (req, res) => {
+  try {
+    const quiz = await Quiz.findByPk(req.params.id, {
       include: [{
         model: Question,
         as: 'questions',
-        attributes: ['id', 'questionText', 'questionType', 'options', 'points']
+        attributes: { exclude: ['correctAnswer', 'explanation'] }, // Hide answers
+        order: [['orderIndex', 'ASC']]
       }]
     });
 
@@ -57,30 +143,30 @@ exports.getQuizById = async (req, res) => {
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
-      data: quiz
+      data: { quiz }
     });
+
   } catch (error) {
-    console.error('Error fetching quiz:', error);
+    console.error('❌ Get Quiz Error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching quiz',
-      error: error.message
+      message: 'Error fetching quiz'
     });
   }
 };
 
-// Start quiz attempt
-exports.startQuizAttempt = async (req, res) => {
+// @desc    Start quiz attempt
+// @route   POST /api/quiz/:id/start
+// @access  Private
+const startQuiz = async (req, res) => {
   try {
-    const { id } = req.params;
-    const userId = req.user.id; // থেকে আসবে auth middleware থেকে
-
-    const quiz = await Quiz.findByPk(id, {
+    const quiz = await Quiz.findByPk(req.params.id, {
       include: [{
         model: Question,
-        as: 'questions'
+        as: 'questions',
+        attributes: { exclude: ['correctAnswer', 'explanation'] }
       }]
     });
 
@@ -92,233 +178,176 @@ exports.startQuizAttempt = async (req, res) => {
     }
 
     const attempt = await QuizAttempt.create({
-      userId,
-      quizId: id,
-      totalQuestions: quiz.questions.length,
+      quizId: quiz.id,
+      userId: req.user.id,
+      startTime: new Date(),
+      totalQuestions: quiz.totalQuestions,
       status: 'in-progress'
-    });
-
-    res.json({
-      success: true,
-      message: 'Quiz attempt started',
-      data: {
-        attemptId: attempt.id,
-        startTime: attempt.startTime,
-        duration: quiz.duration
-      }
-    });
-  } catch (error) {
-    console.error('Error starting quiz attempt:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error starting quiz attempt',
-      error: error.message
-    });
-  }
-};
-
-// Submit quiz
-exports.submitQuiz = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { attemptId, answers } = req.body; // answers = [{questionId: 1, selectedOption: 2}, ...]
-    const userId = req.user.id;
-
-    const attempt = await QuizAttempt.findOne({
-      where: { id: attemptId, userId, quizId: id, status: 'in-progress' }
-    });
-
-    if (!attempt) {
-      return res.status(404).json({
-        success: false,
-        message: 'Quiz attempt not found or already completed'
-      });
-    }
-
-    // Get all questions with correct answers
-    const questions = await Question.findAll({
-      where: { quizId: id },
-      attributes: ['id', 'correctAnswer', 'points', 'questionText', 'options', 'explanation']
-    });
-
-    // Calculate score
-    let correctAnswers = 0;
-    let totalPoints = 0;
-    let earnedPoints = 0;
-
-    const results = questions.map(question => {
-      totalPoints += question.points;
-      const userAnswer = answers.find(a => a.questionId === question.id);
-      const isCorrect = userAnswer && userAnswer.selectedOption === question.correctAnswer;
-      
-      if (isCorrect) {
-        correctAnswers++;
-        earnedPoints += question.points;
-      }
-
-      return {
-        questionId: question.id,
-        questionText: question.questionText,
-        options: question.options,
-        correctAnswer: question.correctAnswer,
-        userAnswer: userAnswer ? userAnswer.selectedOption : null,
-        isCorrect,
-        explanation: question.explanation,
-        points: question.points
-      };
-    });
-
-    const scorePercentage = Math.round((earnedPoints / totalPoints) * 100);
-
-    // Update attempt
-    await attempt.update({
-      endTime: new Date(),
-      score: scorePercentage,
-      correctAnswers,
-      answers: answers,
-      status: 'completed'
-    });
-
-    res.json({
-      success: true,
-      message: 'Quiz submitted successfully',
-      data: {
-        attemptId: attempt.id,
-        score: scorePercentage,
-        correctAnswers,
-        totalQuestions: questions.length,
-        earnedPoints,
-        totalPoints,
-        results
-      }
-    });
-  } catch (error) {
-    console.error('Error submitting quiz:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error submitting quiz',
-      error: error.message
-    });
-  }
-};
-
-// Get quiz results
-exports.getQuizResults = async (req, res) => {
-  try {
-    const { attemptId } = req.params;
-    const userId = req.user.id;
-
-    const attempt = await QuizAttempt.findOne({
-      where: { id: attemptId, userId },
-      include: [{
-        model: Quiz,
-        as: 'quiz',
-        attributes: ['title', 'category', 'passingScore']
-      }]
-    });
-
-    if (!attempt) {
-      return res.status(404).json({
-        success: false,
-        message: 'Quiz attempt not found'
-      });
-    }
-
-    if (attempt.status !== 'completed') {
-      return res.status(400).json({
-        success: false,
-        message: 'Quiz not yet completed'
-      });
-    }
-
-    const questions = await Question.findAll({
-      where: { quizId: attempt.quizId },
-      attributes: ['id', 'questionText', 'options', 'correctAnswer', 'explanation']
-    });
-
-    const results = questions.map(question => {
-      const userAnswer = attempt.answers.find(a => a.questionId === question.id);
-      return {
-        questionId: question.id,
-        questionText: question.questionText,
-        options: question.options,
-        correctAnswer: question.correctAnswer,
-        userAnswer: userAnswer ? userAnswer.selectedOption : null,
-        isCorrect: userAnswer && userAnswer.selectedOption === question.correctAnswer,
-        explanation: question.explanation
-      };
-    });
-
-    res.json({
-      success: true,
-      data: {
-        quizTitle: attempt.quiz.title,
-        category: attempt.quiz.category,
-        score: attempt.score,
-        correctAnswers: attempt.correctAnswers,
-        totalQuestions: attempt.totalQuestions,
-        passingScore: attempt.quiz.passingScore,
-        passed: attempt.score >= attempt.quiz.passingScore,
-        startTime: attempt.startTime,
-        endTime: attempt.endTime,
-        results
-      }
-    });
-  } catch (error) {
-    console.error('Error fetching quiz results:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error fetching quiz results',
-      error: error.message
-    });
-  }
-};
-
-// Create new quiz (Admin only)
-exports.createQuiz = async (req, res) => {
-  try {
-    const { title, description, category, duration, passingScore, questions } = req.body;
-
-    const quiz = await Quiz.create({
-      title,
-      description,
-      category,
-      duration: duration || 600,
-      passingScore: passingScore || 60
-    });
-
-    if (questions && questions.length > 0) {
-      const questionData = questions.map(q => ({
-        quizId: quiz.id,
-        questionText: q.questionText,
-        questionType: q.questionType || 'multiple-choice',
-        options: q.options,
-        correctAnswer: q.correctAnswer,
-        explanation: q.explanation,
-        points: q.points || 1
-      }));
-
-      await Question.bulkCreate(questionData);
-    }
-
-    const createdQuiz = await Quiz.findByPk(quiz.id, {
-      include: [{
-        model: Question,
-        as: 'questions'
-      }]
     });
 
     res.status(201).json({
       success: true,
-      message: 'Quiz created successfully',
-      data: createdQuiz
+      message: 'Quiz started successfully',
+      data: {
+        attempt: {
+          id: attempt.id,
+          startTime: attempt.startTime,
+          timeLimit: quiz.timeLimit
+        },
+        quiz: {
+          id: quiz.id,
+          title: quiz.title,
+          timeLimit: quiz.timeLimit,
+          totalQuestions: quiz.totalQuestions,
+          questions: quiz.questions
+        }
+      }
     });
+
   } catch (error) {
-    console.error('Error creating quiz:', error);
+    console.error('❌ Start Quiz Error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error creating quiz',
-      error: error.message
+      message: error.message || 'Error starting quiz'
     });
   }
+};
+
+// @desc    Submit quiz attempt
+// @route   POST /api/quiz/attempt/:attemptId/submit
+// @access  Private
+const submitQuiz = async (req, res) => {
+  try {
+    const { attemptId } = req.params;
+    const { answers } = req.body; // { questionId: answer }
+
+    const attempt = await QuizAttempt.findByPk(attemptId, {
+      include: [{
+        model: Quiz,
+        as: 'quiz',
+        include: [{
+          model: Question,
+          as: 'questions'
+        }]
+      }]
+    });
+
+    if (!attempt) {
+      return res.status(404).json({
+        success: false,
+        message: 'Attempt not found'
+      });
+    }
+
+    if (attempt.userId !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized'
+      });
+    }
+
+    if (attempt.status === 'completed') {
+      return res.status(400).json({
+        success: false,
+        message: 'Quiz already submitted'
+      });
+    }
+
+    // Calculate score
+    let correctAnswers = 0;
+    let totalScore = 0;
+    const results = [];
+
+    attempt.quiz.questions.forEach(question => {
+      const userAnswer = answers[question.id];
+      const isCorrect = userAnswer === question.correctAnswer;
+      
+      if (isCorrect) {
+        correctAnswers++;
+        totalScore += question.points;
+      }
+
+      results.push({
+        questionId: question.id,
+        questionText: question.questionText,
+        userAnswer,
+        correctAnswer: question.correctAnswer,
+        isCorrect,
+        explanation: question.explanation
+      });
+    });
+
+    const endTime = new Date();
+    const timeTaken = Math.floor((endTime - new Date(attempt.startTime)) / 1000);
+    const scorePercentage = Math.round((correctAnswers / attempt.totalQuestions) * 100);
+
+    // Update attempt
+    await attempt.update({
+      answers,
+      endTime,
+      score: scorePercentage,
+      correctAnswers,
+      timeTaken,
+      status: 'completed'
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Quiz submitted successfully',
+      data: {
+        score: scorePercentage,
+        correctAnswers,
+        totalQuestions: attempt.totalQuestions,
+        timeTaken,
+        passed: scorePercentage >= attempt.quiz.passingScore,
+        results
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Submit Quiz Error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error submitting quiz'
+    });
+  }
+};
+
+// @desc    Get user's quiz attempts
+// @route   GET /api/quiz/my-attempts
+// @access  Private
+const getMyAttempts = async (req, res) => {
+  try {
+    const attempts = await QuizAttempt.findAll({
+      where: { userId: req.user.id },
+      include: [{
+        model: Quiz,
+        as: 'quiz',
+        attributes: ['id', 'title', 'category']
+      }],
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.status(200).json({
+      success: true,
+      data: { attempts, count: attempts.length }
+    });
+
+  } catch (error) {
+    console.error('❌ Get Attempts Error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching attempts'
+    });
+  }
+};
+
+module.exports = {
+  createQuiz,
+  addQuestion,
+  getAllQuizzes,
+  getQuizById,
+  startQuiz,
+  submitQuiz,
+  getMyAttempts
 };
