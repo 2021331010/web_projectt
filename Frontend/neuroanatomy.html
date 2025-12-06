@@ -320,8 +320,6 @@ model-viewer {
     </nav>
 </header>
 
-
-<!-- EI 2 TA MODAL ADD KORO -->
 <!-- Login Modal -->
 <div id="loginModal" class="modal">
     <div class="modal-content">
@@ -400,6 +398,7 @@ For information about the composition of non-human animal nervous systems, see n
     shadow-intensity="1"
     camera-controls
     interaction-prompt="none"
+    
     exposure="1"
     style="background: transparent;"
   >
@@ -646,7 +645,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
         if (response.ok) {
             messageEl.style.color = '#10b981';
-            messageEl.textContent = '✅ Login successful!';
+            messageEl.textContent = 'Login successful!';
             
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('user', JSON.stringify(data.data.user));
@@ -663,7 +662,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
     } catch (error) {
         messageEl.style.color = '#ef4444';
-        messageEl.textContent = '❌ Cannot connect to server';
+        messageEl.textContent = 'Cannot connect to server';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Login';
     }
@@ -681,7 +680,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
     if (password.length < 6) {
         messageEl.style.color = '#ef4444';
-        messageEl.textContent = '❌ Password must be 6+ characters';
+        messageEl.textContent = 'Password must be 6+ characters';
         return;
     }
 
@@ -700,7 +699,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
         if (response.ok) {
             messageEl.style.color = '#10b981';
-            messageEl.textContent = '✅ Account created!';
+            messageEl.textContent = 'Account created!';
             
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('user', JSON.stringify(data.data.user));
@@ -717,7 +716,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         }
     } catch (error) {
         messageEl.style.color = '#ef4444';
-        messageEl.textContent = '❌ Cannot connect to server';
+        messageEl.textContent = 'Cannot connect to server';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Register';
     }
@@ -728,7 +727,7 @@ function logout() {
     if (confirm('Logout?')) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        alert('✅ Logged out!');
+        alert('Logged out!');
         location.reload();
     }
 }

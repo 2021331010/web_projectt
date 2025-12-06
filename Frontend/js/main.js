@@ -212,7 +212,9 @@ function logout() {
         location.reload();
     }
 }
+
 // COMMENTS FUNCTIONALITY with View All
+
 document.addEventListener('DOMContentLoaded', () => {
     const commentForm = document.getElementById('commentForm');
     const commentText = document.getElementById('commentText');
@@ -386,10 +388,7 @@ function likeComment(commentId, event) {
         .catch(err => console.error(err));
 }
 
-
-// ==========================================
 // SEARCH FUNCTIONALITY
-// ==========================================
 const searchInput = document.querySelector('.search-bar input');
 searchInput.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase().trim();
