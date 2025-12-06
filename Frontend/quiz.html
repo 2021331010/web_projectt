@@ -8,16 +8,16 @@
 </head>
 <body>
     <!-- Header (Same as other pages) -->
-    <header>
+   <header>
         <div class="header-top">
             <div class="logo-section">
-                <a href="../index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <a href="index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
                     <div class="logo">
-                        <!-- <img src="../images/logo-icon.png" alt="TeachMe Anatomy Logo"> -->
+                        <img src="/icon_folder/site_icon.png" alt="TeachMe Anatomy Logo">
                     </div>
                     <div class="logo-text">
                         <h1>
-                            <span>TeachMe</span>
+                            <span>Explore</span>
                             <span>Anatomy</span>
                         </h1>
                     </div>
@@ -27,15 +27,17 @@
             <div class="search-bar">
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Search the website">
+                    <input type="text" id = "searchInput" placeholder="Search the website">
                 </div>
             </div>
 
             <div class="header-links">
-                <a href="#">Spotter</a>
-                <a href="#">Question Bank</a>
-                <a href="#">Flashcards</a>
-                <a href="#">Pricing</a>
+            <!-- <a href="#">Spotter</a> -->
+           <a href="quiz.html">Question Bank</a>
+            <!-- <a href="#">Flashcards</a> -->
+            <!-- <a href="#">Pricing</a> -->
+
+            <!-- Auth Buttons (Dynamic) -->
                 <div id="authButtons">
                     <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
                 </div>
@@ -47,14 +49,12 @@
                 <li><a href="basics.html">The Basics</a></li>
                 <li><a href="head.html">Head</a></li>
                 <li><a href="neuroanatomy.html">Neuroanatomy</a></li>
-                <li><a href="neck.html">Neck</a></li>
                 <li><a href="thorax.html">Thorax</a></li>
-                <li><a href="back.html">Back</a></li>
-                <li><a href="upper-limb.html">Upper Limb</a></li>
-                <li><a href="lower-limb.html">Lower Limb</a></li>
+                <li><a href="kidney.html">Kidney</a></li>
                 <li><a href="abdomen.html">Abdomen</a></li>
-                <li><a href="pelvis.html">Pelvis</a></li>
-                <li><a href="quiz.html" class="active">Quiz</a></li>
+                <li><a href="pelvis.html">Pelvis</a></li>                               <li><a href="muscles.html">Muscular system</a></li>
+                <li><a href="respiratory.html">Respiratory System</a></li>
+                <li><a href="3d_parts.html">3D Body</a></li>
             </ul>
         </nav>
     </header>
@@ -201,13 +201,14 @@
     </section>
 
     <!-- Footer (Same as other pages) -->
-    <footer>
+   <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
                     <h4>TeachMe Anatomy</h4>
                     <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
                 </div>
+
                 <div class="footer-column">
                     <h4>Quick Links</h4>
                     <ul>
@@ -217,7 +218,38 @@
                         <li><a href="#">Terms of Service</a></li>
                     </ul>
                 </div>
+
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Student Resources</a></li>
+                        <li><a href="#">Educator Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+<a href="https://facebook.com" target="_blank">
+    <i class="fab fa-facebook fa-2x"></i>
+</a>
+                        <a href="https://twitter.com" target="_blank">
+    <i class="fab fa-twitter fa-2x"></i>
+</a>
+
+<a href="https://instagram.com" target="_blank">
+    <i class="fab fa-instagram fa-2x"></i>
+</a>
+
+<a href="https://linkedin.com" target="_blank">
+    <i class="fab fa-linkedin fa-2x"></i>
+</a>
+ </div>
+                </div>
             </div>
+
             <div class="footer-bottom">
                 <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
             </div>

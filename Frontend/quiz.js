@@ -168,7 +168,7 @@ function loadQuestion() {
     const optionsContainer = document.getElementById('optionsContainer');
     optionsContainer.innerHTML = '';
 
-    // ⭐ Parse options if it's a string
+    //  Parse options if it's a string
     let options = question.options;
     if (typeof options === 'string') {
         try {
