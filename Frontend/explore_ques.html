@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Explore Anatomy - The No.1 Anatomy Learning Resource</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/svg+xml" href="/icon_folder/eye-solid-full.svg">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  body{
+    margin:0;
+    background:#f3f6fb;
+    font-family:Inter, Arial, sans-serif;
+    padding:0px;
+  }
+  .wrap{ max-width:900px; margin:auto; }
+
+  .card{
+    background:#fff;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(22, 9, 9, 0.06);
+  }
+
+  .q-title{
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:12px;
+  }
+
+  .options{ display:flex; flex-direction:column; gap:8px; }
+
+  .option{
+    display:flex;
+    gap:12px;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid rgba(0,0,0,0.1);
+    background:#fff;
+    transition:0.15s ease;
+  }
+
+  .option.correct{
+    background:#d1f5d8;
+    border-color:#16a34a;
+  }
+  .option.dim{ opacity:0.55; }
+
+  .option-label{
+    background:#e3ffe9;
+    border:1px solid #16a34a;
+    color:#166534;
+    padding:3px 6px;
+    border-radius:6px;
+    font-weight:700;
+    min-width:22px;
+    text-align:center;
+  }
+
+  .answer-line, .explanation{
+    display:none; /* hidden by default */
+    padding:10px 12px;
+    border-radius:8px;
+    margin-top:14px;
+    font-size:15px;
+  }
+
+  .answer-line{ background:#f8fafc; }
+  .explanation{ background:#e7f3ff; }
+
+  .show-btn{
+    margin-top:14px;
+    display:inline-block;
+    padding:8px 14px;
+    background:#e2e8f0;
+    border-radius:8px;
+    cursor:pointer;
+    border:1px solid rgba(17, 12, 12, 0.08);
+    user-select:none;
+  }
+  
+  .show-btn:hover{ background:#cbd5e1; }
+
+  @media (max-width:600px){
+    body{ padding:14px; }
+    .q-title{ font-size:15px; }
+  }
+
+  .topic-banner{
+    width: 100%;
+    text-align: center;
+    padding: 50px 0;
+    background: linear-gradient(90deg, #66c9b5, #4ebaac);
+    color: white;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.topic-banner h1{
+    font-size: 38px;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* .black-strip{
+    width: 100%;
+    height: 20px;
+    background: black;
+    margin-bottom: 10px;
+} */
+</style>
+</head>
+<body>
+
+     <header>
+        <div class="header-top">
+            <div class="logo-section">
+                <a href="index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                    <div class="logo">
+                        <img src="/icon_folder/site_icon.png" alt="TeachMe Anatomy Logo">
+                    </div>
+                    <div class="logo-text">
+                        <h1>
+                            <span>Explore</span>
+                            <span>Anatomy</span>
+                        </h1>
+                    </div>
+                </a>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id = "searchInput" placeholder="Search the topic">
+                </div>
+            </div>
+
+            <div class="header-links">
+           <a href="quiz.html">Question Bank</a>
+            
+
+                <div id="authButtons">
+                    <a href="#" onclick="openLoginModal()" class="login-btn">Log In</a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="basics.html">The Basics</a></li>
+                <li><a href="head.html">Head</a></li>
+                <li><a href="neuroanatomy.html">Neuroanatomy</a></li>
+                <li><a href="thorax.html">Thorax</a></li>
+                <li><a href="kidney.html">Kidney</a></li>
+                <li><a href="abdomen.html">Abdomen</a></li>
+                <li><a href="pelvis.html">Pelvis</a></li>                  
+                <li><a href="muscles.html">Muscular system</a></li>
+                <li><a href="respiratory.html">Respiratory System</a></li>
+                <li><a href="3d_parts.html">3D Body</a></li>
+            </ul>
+        </nav>
+    </header>
+   
+
+<div class="topic-banner">
+    <div class="black-strip"></div>
+    <h1>Question Bank</h1>
+</div>
+
+<div class="wrap">
+  <!-- <h2>Biology Question Bank </h2> -->
+  <div id="questions-container"></div>
+</div>
+
+<script>
+/* 10 Basic Biology Questions */
+const questions = [
+  {
+    text: "What is the basic unit of life?",
+    options: ["Atom","Cell","Tissue","Organ"],
+    answers: [1],
+    explanation: "The cell is the structural and functional unit of life; organisms are made of cells."
+  },
+  {
+    text: "Which gas is primarily absorbed by plants for photosynthesis?",
+    options: ["Oxygen","Nitrogen","Carbon dioxide","Helium"],
+    answers: [2],
+    explanation: "Plants take in CO₂ and use light energy to form glucose during photosynthesis."
+  },
+  {
+    text: "Which organelle is known as the powerhouse of the cell?",
+    options: ["Nucleus","Ribosome","Mitochondrion","Golgi apparatus"],
+    answers: [2],
+    explanation: "Mitochondria generate ATP through cellular respiration, supplying energy to the cell."
+  },
+  {
+    text: "Which blood cells are primarily responsible for carrying oxygen?",
+    options: ["White blood cells","Red blood cells","Platelets","Plasma"],
+    answers: [1],
+    explanation: "Red blood cells contain hemoglobin, which binds and transports oxygen."
+  },
+  {
+    text: "Which part of the plant transports water from the roots to the leaves?",
+    options: ["Phloem","Xylem","Epidermis","Cortex"],
+    answers: [1],
+    explanation: "Xylem vessels carry water and dissolved minerals upward from the roots."
+  },
+  {
+    text: "Which vitamin does the human body synthesize on exposure to sunlight?",
+    options: ["Vitamin A","Vitamin B12","Vitamin C","Vitamin D"],
+    answers: [3],
+    explanation: "Skin cells synthesize Vitamin D (cholecalciferol) when exposed to UV-B radiation."
+  },
+  {
+    text: "Which organ filters waste products from the blood to form urine?",
+    options: ["Liver","Pancreas","Kidney","Spleen"],
+    answers: [2],
+    explanation: "Kidneys filter blood, remove wastes and excess substances, forming urine."
+  },
+  {
+    text: "Which process allows movement of water across a semipermeable membrane from low solute to high solute concentration?",
+    options: ["Diffusion","Active transport","Osmosis","Endocytosis"],
+    answers: [2],
+    explanation: "Osmosis is the passive movement of water across a membrane toward higher solute concentration."
+  },
+  {
+    text: "Which macromolecule is primarily responsible for storing genetic information?",
+    options: ["Proteins","Carbohydrates","Lipids","Nucleic acids (DNA/RNA)"],
+    answers: [3],
+    explanation: "DNA and RNA (nucleic acids) encode and transmit genetic information."
+  },
+  {
+    text: "Which structure in a plant cell contains chlorophyll and conducts photosynthesis?",
+    options: ["Mitochondrion","Chloroplast","Vacuole","Endoplasmic reticulum"],
+    answers: [1],
+    explanation: "Chloroplasts contain chlorophyll pigments that capture light energy for photosynthesis."
+  }
+];
+
+function letter(i){ return String.fromCharCode(97+i); }
+
+const container = document.getElementById("questions-container");
+
+function load(){
+  questions.forEach((q, qi)=>{
+    const card = document.createElement("div");
+    card.className = "card";
+
+    // Question title
+    card.innerHTML += `<div class="q-title">${qi+1}. ${q.text}</div>`;
+
+    // Options
+    const opts = document.createElement("div");
+    opts.className = "options";
+    q.options.forEach((opt, i) => {
+      const row = document.createElement("div");
+      row.className = "option";
+      row.dataset.index = i;
+
+      row.innerHTML = `
+        <div class="option-label">${letter(i)}</div>
+        <div>${opt}</div>
+      `;
+      opts.appendChild(row);
+    });
+    card.appendChild(opts);
+
+    // Show Answer button
+    const btn = document.createElement("div");
+    btn.className = "show-btn";
+    btn.textContent = "Show Answer";
+    card.appendChild(btn);
+
+    // Answer line (hidden)
+    const ans = document.createElement("div");
+    ans.className = "answer-line";
+    ans.innerHTML = `<strong>Answer:</strong> ${q.answers.map(letter).join(", ")}`;
+    card.appendChild(ans);
+
+    // Explanation (hidden)
+    const sol = document.createElement("div");
+    sol.className = "explanation";
+    sol.innerHTML = `<strong>Solution:</strong><br>${q.explanation}`;
+    card.appendChild(sol);
+
+    // Click handler: reveal and highlight
+    btn.addEventListener("click", () => {
+      ans.style.display = "block";
+      sol.style.display = "block";
+      btn.style.display = "none"; // hide button after revealing
+
+      const rows = card.querySelectorAll(".option");
+      rows.forEach(r => {
+        const idx = parseInt(r.dataset.index, 10);
+        if (q.answers.includes(idx)) r.classList.add("correct");
+        else r.classList.add("dim");
+      });
+
+      // scroll into view of answer
+      ans.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    container.appendChild(card);
+  });
+}
+
+load();
+</script>
+  <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TeachMe Anatomy</h4>
+                    <p>The trusted anatomy learning resource for students and professionals worldwide.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Student Resources</a></li>
+                        <li><a href="#">Educator Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+    <a href="https://facebook.com" target="_blank">
+    <i class="fab fa-facebook fa-2x"></i>
+</a>
+    <a href="https://twitter.com" target="_blank">
+    <i class="fab fa-twitter fa-2x"></i>
+</a>
+
+    <a href="https://instagram.com" target="_blank">
+    <i class="fab fa-instagram fa-2x"></i>
+</a>
+
+    <a href="https://linkedin.com" target="_blank">
+    <i class="fab fa-linkedin fa-2x"></i>
+</a>
+ </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 TeachMeAnatomy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+<script src="js/main.js"></script>
+
+</body>
+</html>
