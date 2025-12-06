@@ -590,13 +590,13 @@ header {
    9. ARTICLES & POPULAR SECTIONS
    ========================================== */
 
-.recently-updated-section,
+/* .recently-updated-section,
 .popular-section {
     padding: 60px 40px;
     background-color: #fff;
-}
+} */
 
-.recently-updated-section h2,
+/* .recently-updated-section h2,
 .popular-section h2 {
     font-size: 32px;
     font-weight: 700;
@@ -614,9 +614,9 @@ header {
     gap: 25px;
     max-width: 1000px;
     margin: 0 auto;
-}
+} */
 
-.article-card,
+/* .article-card,
 .popular-card {
     background: white;
     border-radius: 8px;
@@ -676,9 +676,9 @@ header {
     letter-spacing: 1px;
     margin-bottom: 10px;
     text-transform: uppercase;
-}
+} */
 
-.article-content h3,
+/* .article-content h3,
 .popular-content h3 {
     font-size: 17px;
     font-weight: 700;
@@ -695,17 +695,17 @@ header {
 .popular-author {
     font-size: 13px;
     color: #888;
-}
+} */
 
 /* ==========================================
-   10. CTA SECTION
+   10. CTA SECTION(call to action)
    ========================================== */
 
 .cta-section {
-    background: linear-gradient(135deg, #00d4aa 0%, #00a896 100%);
+    background: linear-gradient(135deg, #125246 0%, #00a896 100%);
     padding: 80px 40px;
     text-align: center;
-    color: white;
+    color: rgb(255, 249, 249);
 }
 
 .cta-section h2 {
@@ -764,7 +764,7 @@ header {
    ========================================== */
 
 
-        .demo-content {
+        /* .demo-content {
             flex: 1;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
@@ -773,7 +773,7 @@ header {
             color: white;
             font-size: 2rem;
             padding: 2rem;
-        }
+        } */
 
         /* Footer Styles */
         footer {
@@ -793,7 +793,7 @@ header {
             display: flex;
             justify-content: space-between;
             gap: 3rem;
-            margin-bottom: 3rem;
+            margin-bottom: 3rem; /*1 rem = 16px*/
         }
 
         .footer-column {
@@ -815,12 +815,12 @@ header {
             font-size: 2rem;
         }
 
-        .footer-column:first-child h4 span {
-            color: #17c4b5;
-        }
+        /* .footer-column:first-child h4 span {
+            color: #3cac8c;
+        } */
 
         .footer-column p {
-            color: #cccccc;
+            color: #c5c1c1;
             line-height: 1.8;
             font-size: 0.95rem;
             margin-bottom: 1rem;
