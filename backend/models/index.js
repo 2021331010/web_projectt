@@ -4,9 +4,9 @@ const { sequelize } = require('../config/database');
 // Import Models
 const User = require('./user')(sequelize, DataTypes);
 const Comment = require('./Comment')(sequelize, DataTypes);
-const Quiz = require('./Quiz')(sequelize, DataTypes);           // ⭐ নতুন
-const Question = require('./Question')(sequelize, DataTypes);   // ⭐ নতুন
-const QuizAttempt = require('./QuizAttempt')(sequelize, DataTypes); // ⭐ নতুন
+const Quiz = require('./Quiz')(sequelize, DataTypes);           
+const Question = require('./Question')(sequelize, DataTypes); 
+const QuizAttempt = require('./QuizAttempt')(sequelize, DataTypes); 
 
 // User - Comment Associations
 User.hasMany(Comment, {
