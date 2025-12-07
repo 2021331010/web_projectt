@@ -31,7 +31,7 @@ const createQuiz = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Create Quiz Error:', error);
+    console.error('Create Quiz Error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Error creating quiz'
@@ -83,7 +83,7 @@ const addQuestion = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Add Question Error:', error);
+    console.error('Add Question Error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Error adding question'
@@ -114,7 +114,7 @@ const getAllQuizzes = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Get Quizzes Error:', error);
+    console.error('Get Quizzes Error:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching quizzes'
@@ -149,7 +149,7 @@ const getQuizById = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Get Quiz Error:', error);
+    console.error('Get Quiz Error:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching quiz'
@@ -205,7 +205,7 @@ const startQuiz = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Start Quiz Error:', error);
+    console.error('Start Quiz Error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Error starting quiz'
@@ -305,7 +305,7 @@ const submitQuiz = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Submit Quiz Error:', error);
+    console.error('Submit Quiz Error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Error submitting quiz'
@@ -334,7 +334,7 @@ const getMyAttempts = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Get Attempts Error:', error);
+    console.error('Get Attempts Error:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching attempts'

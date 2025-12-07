@@ -60,7 +60,7 @@ module.exports = {
   sequelize,
   User,
   Comment,
-  Quiz,          // ⭐ export করুন
-  Question,      // ⭐ export করুন
-  QuizAttempt    // ⭐ export করুন
+  Quiz,          
+  Question,     
+  QuizAttempt   
 };

@@ -1,7 +1,4 @@
-// ==========================================
 // QUIZ SYSTEM JAVASCRIPT
-// ==========================================
-
 const API_URL = 'http://localhost:5000/api';
 
 let currentQuiz = null;
@@ -12,9 +9,7 @@ let userAnswers = {};
 let quizTimer = null;
 let timeRemaining = 0;
 
-// ==========================================
 // LOAD QUIZZES
-// ==========================================
 
 document.addEventListener('DOMContentLoaded', function() {
     checkAuthStatus();
@@ -96,10 +91,7 @@ function createQuizCard(quiz) {
     return card;
 }
 
-// ==========================================
 // START QUIZ
-// ==========================================
-
 async function startQuizAttempt(quizId) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -145,9 +137,7 @@ async function startQuizAttempt(quizId) {
     }
 }
 
-// ==========================================
 // LOAD QUESTION
-// ==========================================
 
 function loadQuestion() {
     const question = questions[currentQuestionIndex];
@@ -283,10 +273,7 @@ function stopTimer() {
     }
 }
 
-// ==========================================
 // SUBMIT QUIZ
-// ==========================================
-
 async function submitQuiz() {
     if (!confirm('Are you sure you want to submit? You cannot change your answers after submission.')) {
         return;
@@ -320,10 +307,7 @@ async function submitQuiz() {
     }
 }
 
-// ==========================================
-// SHOW RESULTS
-// ==========================================
-
+// SHOW RESULT
 function showResults(results) {
     document.getElementById('quizTakingSection').style.display = 'none';
     document.getElementById('quizResultSection').style.display = 'block';
@@ -375,9 +359,7 @@ function showResults(results) {
     });
 }
 
-// ==========================================
 // UTILITY FUNCTIONS
-// ==========================================
 
 function backToQuizList() {
     document.getElementById('quizResultSection').style.display = 'none';

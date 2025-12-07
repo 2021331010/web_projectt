@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     role: {
-      type: DataTypes.ENUM('student', 'admin'),  // ⭐ ENUM এ পরিবর্তন
+      type: DataTypes.ENUM('student', 'admin'), 
       defaultValue: 'student',
       allowNull: false
     },

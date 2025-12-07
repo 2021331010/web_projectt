@@ -39,7 +39,7 @@ const protect = async (req, res, next) => {
   }
 };
 
-//  নতুন admin middleware
+
 const adminAuth = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();

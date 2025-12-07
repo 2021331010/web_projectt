@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
-    console.log(`📍 ${req.method} ${req.path}`);
+    console.log(`${req.method} ${req.path}`);
     next();
   });
 }
@@ -37,7 +37,7 @@ app.use('/api/admin', adminRoutes);
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'TeachMe Anatomy API is running! 🚀',
+    message: 'TeachMe Anatomy API is running!',
     version: '1.0.0',
     database: 'MySQL',
     endpoints: {
@@ -87,7 +87,7 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error('❌ Error:', err.stack);
+  console.error('Error:', err.stack);
 
   res.status(err.status || 500).json({
     success: false,
@@ -109,14 +109,14 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log('');
       console.log('==========================================');
-      console.log('🚀 TeachMe Anatomy Backend Server Started');
+      console.log('TeachMe Anatomy Backend Server Started');
       console.log('==========================================');
-      console.log(`📍 Server URL: http://localhost:${PORT}`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-      console.log(`🗄️  Database: MySQL (${process.env.DB_NAME})`);
-      console.log(`🔐 JWT Enabled: Yes`);
+      console.log(`Server URL: http://localhost:${PORT}`);
+      console.log(`Environment: ${process.env.NODE_ENV}`);
+      console.log(`Database: MySQL (${process.env.DB_NAME})`);
+      console.log(`JWT Enabled: Yes`);
       console.log('==========================================');
-      console.log('📚 API Endpoints:');
+      console.log('API Endpoints:');
       console.log('   AUTH:');
       console.log('   POST   /api/auth/register');
       console.log('   POST   /api/auth/login');
@@ -144,7 +144,7 @@ const startServer = async () => {
     });
 
   } catch (error) {
-    console.error('❌ Failed to start server:', error);
+    console.error('Failed to start server:', error);
     process.exit(1);
   }
 };
@@ -152,18 +152,18 @@ const startServer = async () => {
 startServer();
 
 process.on('unhandledRejection', (err) => {
-  console.error('❌ Unhandled Promise Rejection:', err);
-  console.error('💥 Shutting down server...');
+  console.error('Unhandled Promise Rejection:', err);
+  console.error('Shutting down server...');
   process.exit(1);
 });
 
 process.on('uncaughtException', (err) => {
-  console.error('❌ Uncaught Exception:', err);
-  console.error('💥 Shutting down server...');
+  console.error('Uncaught Exception:', err);
+  console.error('Shutting down server...');
   process.exit(1);
 });
 
 process.on('SIGTERM', () => {
-  console.log('👋 SIGTERM received. Shutting down gracefully...');
+  console.log('SIGTERM received. Shutting down gracefully...');
   process.exit(0);
 });

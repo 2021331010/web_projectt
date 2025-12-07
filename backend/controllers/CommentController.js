@@ -26,7 +26,7 @@ const getComments = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Get Comments Error:', error);
+    console.error('Get Comments Error:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching comments'
@@ -76,7 +76,7 @@ const postComment = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Post Comment Error:', error);
+    console.error('Post Comment Error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Error posting comment'
@@ -113,7 +113,7 @@ const deleteComment = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Delete Comment Error:', error);
+    console.error('Delete Comment Error:', error);
     res.status(500).json({
       success: false,
       message: 'Error deleting comment'
@@ -144,7 +144,7 @@ const likeComment = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Like Comment Error:', error);
+    console.error('Like Comment Error:', error);
     res.status(500).json({
       success: false,
       message: 'Error liking comment'

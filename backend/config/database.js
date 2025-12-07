@@ -35,17 +35,17 @@ const sequelize = new Sequelize(
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ MySQL Database Connected Successfully!');
+    console.log('MySQL Database Connected Successfully!');
     
     await sequelize.sync({ alter: true });
     
-    console.log('✅ All models synchronized with database');
+    console.log('All models synchronized with database');
     
     const [results] = await sequelize.query("SHOW TABLES");
-    console.log('📋 Created Tables:', results.map(r => Object.values(r)[0]));
+    console.log('Created Tables:', results.map(r => Object.values(r)[0]));
     
   } catch (error) {
-    console.error('❌ Unable to connect to database:', error.message);
+    console.error('Unable to connect to database:', error.message);
     process.exit(1);
   }
 };
