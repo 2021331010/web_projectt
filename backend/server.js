@@ -34,6 +34,7 @@ app.use('/api/comments', require('./routes/Comment'));
 // Add Quiz Routes
 app.use('/api/quiz', require('./routes/Quiz'));
 app.use('/api/admin', adminRoutes);
+app.use('/api/search', require('./routes/search'));
 app.get('/', (req, res) => {
   res.json({
     success: true,

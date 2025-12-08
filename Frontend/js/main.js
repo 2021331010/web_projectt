@@ -389,39 +389,196 @@ function likeComment(commentId, event) {
 }
 
 // SEARCH FUNCTIONALITY
-const searchInput = document.querySelector('.search-bar input');
+// const searchInput = document.querySelector('.search-bar input');
+// searchInput.addEventListener('input', (e) => {
+//     const query = e.target.value.toLowerCase().trim();
+
+//     const initialTopics = document.getElementById('initialTopics');
+//     const additionalTopics = document.getElementById('additionalTopics');
+//     const allTopics = [...initialTopics.querySelectorAll('.topic-card'), 
+//                        ...additionalTopics.querySelectorAll('.topic-card')];
+
+//     let anyVisible = false;
+
+//     allTopics.forEach(topic => {
+//         const text = topic.querySelector('h3').textContent.toLowerCase();
+//         if (text.includes(query)) {
+//             topic.style.display = 'block';
+//             anyVisible = true;
+//         } else {
+//             topic.style.display = 'none';
+//         }
+//     });
+
+//     const viewAllBtn = document.getElementById('viewAllBtn');
+//     if (query.length > 0) {
+//         viewAllBtn.style.display = 'none';
+//         initialTopics.style.display = 'grid';
+//         additionalTopics.style.display = 'grid';
+//     } else {
+//         viewAllBtn.style.display = 'block';
+//         if (additionalTopics.classList.contains('hidden')) {
+//             additionalTopics.style.display = 'none';
+//         } else {
+//             additionalTopics.style.display = 'grid';
+//         }
+//         initialTopics.style.display = 'grid';
+//     }
+// });
+
+// Search functionality
+const searchInput = document.getElementById('searchInput');
+const searchSuggestions = document.getElementById('searchSuggestions');
+const searchResults = document.getElementById('searchResults');
+let searchTimeout;
+
+// Search with debounce
 searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-
-    const initialTopics = document.getElementById('initialTopics');
-    const additionalTopics = document.getElementById('additionalTopics');
-    const allTopics = [...initialTopics.querySelectorAll('.topic-card'), 
-                       ...additionalTopics.querySelectorAll('.topic-card')];
-
-    let anyVisible = false;
-
-    allTopics.forEach(topic => {
-        const text = topic.querySelector('h3').textContent.toLowerCase();
-        if (text.includes(query)) {
-            topic.style.display = 'block';
-            anyVisible = true;
-        } else {
-            topic.style.display = 'none';
-        }
-    });
-
-    const viewAllBtn = document.getElementById('viewAllBtn');
-    if (query.length > 0) {
-        viewAllBtn.style.display = 'none';
-        initialTopics.style.display = 'grid';
-        additionalTopics.style.display = 'grid';
-    } else {
-        viewAllBtn.style.display = 'block';
-        if (additionalTopics.classList.contains('hidden')) {
-            additionalTopics.style.display = 'none';
-        } else {
-            additionalTopics.style.display = 'grid';
-        }
-        initialTopics.style.display = 'grid';
-    }
+  clearTimeout(searchTimeout);
+  const query = e.target.value.trim();
+  
+  if (query.length === 0) {
+    searchSuggestions.innerHTML = '';
+    searchResults.innerHTML = '';
+    return;
+  }
+  
+  if (query.length < 2) return;
+  
+  searchTimeout = setTimeout(() => {
+    getSearchSuggestions(query);
+  }, 300);
 });
+
+// Get autocomplete suggestions
+async function getSearchSuggestions(query) {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/search/suggestions?q=${encodeURIComponent(query)}&limit=5`
+    );
+    const data = await response.json();
+    
+    if (data.success && data.data.suggestions.length > 0) {
+      displaySuggestions(data.data.suggestions);
+    } else {
+      searchSuggestions.innerHTML = '';
+    }
+  } catch (error) {
+    console.error('Suggestions error:', error);
+  }
+}
+
+// Display suggestions
+function displaySuggestions(suggestions) {
+  let html = '<ul class="suggestions-list">';
+  
+  suggestions.forEach(suggestion => {
+    html += `
+      <li onclick="navigateToTopic('${suggestion.url}')">
+        <span class="suggestion-icon">${getCategoryIcon(suggestion.category)}</span>
+        <span class="suggestion-text">${suggestion.text}</span>
+        <span class="suggestion-category">${suggestion.category}</span>
+      </li>
+    `;
+  });
+  
+  html += '</ul>';
+  searchSuggestions.innerHTML = html;
+  searchSuggestions.style.display = 'block';
+}
+
+// Navigate to topic
+function navigateToTopic(url) {
+  window.location.href = url;
+}
+
+// Get category icon
+function getCategoryIcon(category) {
+  const icons = {
+    'basics': '📚',
+    'head': '🧠',
+    'neuroanatomy': '🧬',
+    'neck': '🦴',
+    'thorax': '🫀',
+    'back': '🏋️',
+    'upper-limb': '💪',
+    'lower-limb': '🦵',
+    'abdomen': '🫃',
+    'pelvis': '🦴',
+    'quiz': '❓',
+    'flashcards': '🎴',
+    'spotter': '🔍'
+  };
+  return icons[category] || '📄';
+}
+
+// Search on Enter key
+searchInput.addEventListener('keypress', async (e) => {
+  if (e.key === 'Enter') {
+    const query = searchInput.value.trim();
+    if (query.length >= 2) {
+      await performFullSearch(query);
+    }
+  }
+});
+
+// Full search
+async function performFullSearch(query) {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/search/topics?q=${encodeURIComponent(query)}&limit=20`
+    );
+    const data = await response.json();
+    
+    if (data.success) {
+      displaySearchResults(data.data);
+    }
+  } catch (error) {
+    console.error('Search error:', error);
+  }
+}
+
+// Display full search results
+function displaySearchResults(data) {
+  searchSuggestions.style.display = 'none';
+  
+  if (data.topics.length === 0) {
+    searchResults.innerHTML = `
+      <div class="no-results">
+        <p>No topics found for "${data.query}"</p>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = `
+    <div class="search-results-header">
+      <h3>Search Results (${data.totalResults})</h3>
+    </div>
+    <div class="results-grid">
+  `;
+  
+  data.topics.forEach(topic => {
+    html += `
+      <div class="result-card" onclick="navigateToTopic('${topic.url}')">
+        <div class="result-icon">${getCategoryIcon(topic.category)}</div>
+        <h4>${topic.title}</h4>
+        <span class="result-category">${topic.category}</span>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  searchResults.innerHTML = html;
+  searchResults.style.display = 'block';
+}
+
+// Hide suggestions when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-container')) {
+    searchSuggestions.style.display = 'none';
+    searchResults.style.display = 'none';
+  }
+});
+
+

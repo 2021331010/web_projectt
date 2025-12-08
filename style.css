@@ -1918,3 +1918,138 @@ header {
         width: 100%;
     }
 }
+
+/* Search Container */
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 16px;
+  border: 2px solid #14b8a6;
+  border-radius: 25px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+#searchInput:focus {
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2);
+}
+
+/* Suggestions Dropdown */
+.suggestions-dropdown {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: none;
+}
+
+.suggestions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions-list li {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.2s;
+}
+
+.suggestions-list li:hover {
+  background: #f9fafb;
+}
+
+.suggestion-icon {
+  font-size: 20px;
+}
+
+.suggestion-text {
+  flex: 1;
+  font-weight: 500;
+}
+
+.suggestion-category {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+/* Search Results */
+.search-results {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+}
+
+.search-results-header h3 {
+  margin: 0 0 15px 0;
+  color: #14b8a6;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.result-card {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.result-card:hover {
+  background: #14b8a6;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+}
+
+.result-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.result-card h4 {
+  margin: 10px 0 5px 0;
+  font-size: 16px;
+}
+
+.result-category {
+  font-size: 12px;
+  opacity: 0.8;
+  text-transform: capitalize;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+}
