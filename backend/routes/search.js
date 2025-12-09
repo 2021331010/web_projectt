@@ -5,14 +5,38 @@ const router = express.Router();
 // Static Topics/Pages Database
 // ==========================================
 const topics = [
-  // Basics
-  { id: 1, title: 'The Basics', category: 'basics', url: '/basics.html', keywords: ['introduction', 'fundamental', 'overview'] },
+  // Home
+  { id: 1, title: 'Home', category: 'home', url: 'index.html', keywords: ['home', 'main', 'start', 'explore anatomy'] },
   
-  // Head
-  { id: 2, title: 'Head', category: 'head', url: '/head.html', keywords: ['skull', 'cranium', 'face', 'facial bones'] },
+  // The Basics (80 Topics - shown in screenshot)
+  { id: 2, title: 'The Basics', category: 'basics', url: 'basics.html', keywords: ['introduction', 'fundamental', 'overview', 'basic anatomy', 'beginner', 'foundation'] },
   
-  // Neuroanatomy
-  { id: 3, title: 'Neuroanatomy', category: 'neuroanatomy', url: '/neuroanatomy.html', keywords: ['brain', 'nervous system', 'neurons', 'cerebrum', 'cerebellum'] },
+  // The Head (114 Topics - shown in screenshot)
+  { id: 3, title: 'The Head', category: 'head', url: 'head.html', keywords: ['skull', 'cranium', 'face', 'facial bones', 'head anatomy', 'eyes', 'ears', 'nose'] },
+  
+  // Neuroanatomy (40 Topics - shown in screenshot)
+  { id: 4, title: 'Neuroanatomy', category: 'neuroanatomy', url: 'neuroanatomy.html', keywords: ['brain', 'nervous system', 'neurons', 'cerebrum', 'cerebellum', 'spinal cord', 'neural'] },
+  
+  // The Thorax (65 Topics - shown in screenshot)
+  { id: 5, title: 'The Thorax', category: 'thorax', url: 'thorax.html', keywords: ['chest', 'ribs', 'sternum', 'heart', 'lungs', 'thoracic', 'respiratory', 'cardiovascular'] },
+  
+  // Abdomen (88 Topics - shown in screenshot)
+  { id: 6, title: 'Abdomen', category: 'abdomen', url: 'abdomen.html', keywords: ['stomach', 'intestines', 'liver', 'digestive', 'abdominal organs', 'gallbladder', 'pancreas'] },
+  
+  // 3D Body (shown in screenshot)
+  { id: 7, title: '3D Body', category: '3d-body', url: '3d-body.html', keywords: ['3d', 'interactive', 'model', 'visualization', 'interactive models'] },
+  
+  // Respiratory System (48 Topics - shown in screenshot)
+  { id: 8, title: 'Respiratory System', category: 'respiratory-system', url: 'respiratory-system.html', keywords: ['respiratory', 'breathing', 'lungs', 'trachea', 'bronchi', 'alveoli'] },
+  
+  // The Kidney (54 Topics - shown in screenshot)
+  { id: 9, title: 'The Kidney', category: 'kidney', url: 'kidney.html', keywords: ['kidney', 'renal', 'urinary', 'nephron', 'filtration'] },
+  
+  // Pelvis
+  { id: 10, title: 'Pelvis', category: 'pelvis', url: 'pelvis.html', keywords: ['pelvic', 'hip bones', 'reproductive organs', 'bladder', 'pelvic floor'] },
+  
+  // Muscular System
+  { id: 11, title: 'Muscular System', category: 'muscular-system', url: 'muscular-system.html', keywords: ['muscles', 'muscular', 'skeletal muscle', 'smooth muscle', 'cardiac muscle'] },
   
   // Neck
   { id: 4, title: 'Neck', category: 'neck', url: '/neck.html', keywords: ['cervical', 'throat', 'vertebrae', 'muscles'] },
@@ -34,6 +58,18 @@ const topics = [
   
   // Pelvis
   { id: 10, title: 'Pelvis', category: 'pelvis', url: '/pelvis.html', keywords: ['pelvic', 'hip bones', 'reproductive organs', 'bladder'] },
+  
+  // Neck
+  { id: 12, title: 'Neck', category: 'neck', url: 'neck.html', keywords: ['neck', 'cervical', 'throat', 'vertebrae', 'thyroid', 'larynx'] },
+  
+  // Back
+  { id: 13, title: 'Back', category: 'back', url: 'back.html', keywords: ['back', 'spine', 'vertebral column', 'spinal cord', 'dorsal', 'vertebrae'] },
+  
+  // Upper Limb
+  { id: 14, title: 'Upper Limb', category: 'upper-limb', url: 'upper-limb.html', keywords: ['arm', 'shoulder', 'elbow', 'wrist', 'hand', 'fingers', 'humerus', 'radius', 'ulna', 'upper extremity'] },
+  
+  // Lower Limb
+  { id: 15, title: 'Lower Limb', category: 'lower-limb', url: 'lower-limb.html', keywords: ['leg', 'hip', 'knee', 'ankle', 'foot', 'toes', 'femur', 'tibia', 'fibula', 'lower extremity'] },
   
   // Additional Pages
   { id: 11, title: 'Question Bank', category: 'quiz', url: '/question-bank.html', keywords: ['questions', 'quiz', 'test', 'practice'] },

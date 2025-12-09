@@ -426,70 +426,158 @@ function likeComment(commentId, event) {
 //     }
 // });
 
-// Search functionality
-const searchInput = document.getElementById('searchInput');
-const searchSuggestions = document.getElementById('searchSuggestions');
-const searchResults = document.getElementById('searchResults');
-let searchTimeout;
+// ==========================================
+// Navigation Search Functionality
+// ==========================================
 
-// Search with debounce
-searchInput.addEventListener('input', (e) => {
-  clearTimeout(searchTimeout);
-  const query = e.target.value.trim();
-  
-  if (query.length === 0) {
-    searchSuggestions.innerHTML = '';
-    searchResults.innerHTML = '';
-    return;
-  }
-  
-  if (query.length < 2) return;
-  
-  searchTimeout = setTimeout(() => {
-    getSearchSuggestions(query);
-  }, 300);
-});
 
-// Get autocomplete suggestions
-async function getSearchSuggestions(query) {
+
+let navSearchTimeout;
+const navSearchInput = document.getElementById('navSearchInput');
+const navSearchSuggestions = document.getElementById('navSearchSuggestions');
+
+// Initialize search
+if (navSearchInput) {
+  // Search on input with debounce
+  navSearchInput.addEventListener('input', (e) => {
+    clearTimeout(navSearchTimeout);
+    const query = e.target.value.trim();
+    
+    if (query.length === 0) {
+      hideSearchDropdown();
+      return;
+    }
+    
+    if (query.length < 2) return;
+    
+    navSearchTimeout = setTimeout(() => {
+      performNavSearch(query);
+    }, 300);
+  });
+
+  // Search on Enter key
+  navSearchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const query = navSearchInput.value.trim();
+      if (query.length >= 2) {
+        performNavSearch(query);
+      }
+    }
+  });
+
+  // Hide dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrapper')) {
+      hideSearchDropdown();
+    }
+  });
+}
+
+// Perform search
+async function performNavSearch(query) {
   try {
+    showSearchLoading();
+    
     const response = await fetch(
-      `http://localhost:5000/api/search/suggestions?q=${encodeURIComponent(query)}&limit=5`
+      `${API_URL}/search/topics?q=${encodeURIComponent(query)}&limit=10`
     );
+    
     const data = await response.json();
     
-    if (data.success && data.data.suggestions.length > 0) {
-      displaySuggestions(data.data.suggestions);
+    if (data.success) {
+      displayNavSearchResults(data.data);
     } else {
-      searchSuggestions.innerHTML = '';
+      showNoResults();
     }
+    
   } catch (error) {
-    console.error('Suggestions error:', error);
+    console.error('Search error:', error);
+    showSearchError();
   }
 }
 
-// Display suggestions
-function displaySuggestions(suggestions) {
-  let html = '<ul class="suggestions-list">';
+// Display search results
+function displayNavSearchResults(data) {
+  if (!data.topics || data.topics.length === 0) {
+    showNoResults();
+    return;
+  }
+
+  // Group by category
+  const grouped = groupByCategory(data.topics);
   
-  suggestions.forEach(suggestion => {
-    html += `
-      <li onclick="navigateToTopic('${suggestion.url}')">
-        <span class="suggestion-icon">${getCategoryIcon(suggestion.category)}</span>
-        <span class="suggestion-text">${suggestion.text}</span>
-        <span class="suggestion-category">${suggestion.category}</span>
-      </li>
-    `;
+  let html = '';
+  
+  // Display each category group
+  for (const [category, topics] of Object.entries(grouped)) {
+    if (topics.length > 0) {
+      html += `
+        <div class="search-results-section">
+          <div class="search-results-header">${category}</div>
+          <ul class="nav-suggestions-list">
+      `;
+      
+      topics.forEach(topic => {
+        html += createSuggestionItem(topic);
+      });
+      
+      html += `
+          </ul>
+        </div>
+      `;
+    }
+  }
+  
+  navSearchSuggestions.innerHTML = html;
+  showSearchDropdown();
+}
+
+// Create suggestion item HTML
+function createSuggestionItem(topic) {
+  const icon = getCategoryIcon(topic.category);
+  
+  return `
+    <li class="nav-suggestion-item" onclick="navigateToTopic('${topic.url}', '${topic.title}')">
+      <span class="nav-suggestion-icon">${icon}</span>
+      <div class="nav-suggestion-content">
+        <div class="nav-suggestion-title">${topic.title}</div>
+        <div class="nav-suggestion-category">${topic.category.replace('-', ' ')}</div>
+      </div>
+    </li>
+  `;
+}
+
+// Group topics by category
+function groupByCategory(topics) {
+  const grouped = {};
+  
+  topics.forEach(topic => {
+    const category = topic.category;
+    if (!grouped[category]) {
+      grouped[category] = [];
+    }
+    grouped[category].push(topic);
   });
   
-  html += '</ul>';
-  searchSuggestions.innerHTML = html;
-  searchSuggestions.style.display = 'block';
+  return grouped;
 }
 
 // Navigate to topic
-function navigateToTopic(url) {
-  window.location.href = url;
+function navigateToTopic(url, title) {
+  console.log('Navigating to:', url, title);
+  
+  if (url === '#coming-soon') {
+    alert(`📚 ${title} section is coming soon! Stay tuned for updates 🚀`);
+    hideSearchDropdown();
+    navSearchInput.value = '';
+    return;
+  }
+  
+  if (url.startsWith('http')) {
+    window.open(url, '_blank');
+  } else {
+    window.location.href = url;
+  }
 }
 
 // Get category icon
@@ -505,80 +593,59 @@ function getCategoryIcon(category) {
     'lower-limb': '🦵',
     'abdomen': '🫃',
     'pelvis': '🦴',
+    'kidney': '🫘',
+    'muscular-system': '💪',
+    'respiratory-system': '🫁',
     'quiz': '❓',
+    'question-bank': '📝',
     'flashcards': '🎴',
-    'spotter': '🔍'
+    'spotter': '🔍',
+    'home': '🏠'
   };
   return icons[category] || '📄';
 }
 
-// Search on Enter key
-searchInput.addEventListener('keypress', async (e) => {
-  if (e.key === 'Enter') {
-    const query = searchInput.value.trim();
-    if (query.length >= 2) {
-      await performFullSearch(query);
-    }
-  }
-});
-
-// Full search
-async function performFullSearch(query) {
-  try {
-    const response = await fetch(
-      `http://localhost:5000/api/search/topics?q=${encodeURIComponent(query)}&limit=20`
-    );
-    const data = await response.json();
-    
-    if (data.success) {
-      displaySearchResults(data.data);
-    }
-  } catch (error) {
-    console.error('Search error:', error);
-  }
+// Show dropdown
+function showSearchDropdown() {
+  navSearchSuggestions.classList.add('show');
 }
 
-// Display full search results
-function displaySearchResults(data) {
-  searchSuggestions.style.display = 'none';
-  
-  if (data.topics.length === 0) {
-    searchResults.innerHTML = `
-      <div class="no-results">
-        <p>No topics found for "${data.query}"</p>
-      </div>
-    `;
-    return;
-  }
-  
-  let html = `
-    <div class="search-results-header">
-      <h3>Search Results (${data.totalResults})</h3>
+// Hide dropdown
+function hideSearchDropdown() {
+  navSearchSuggestions.classList.remove('show');
+}
+
+// Show loading state
+function showSearchLoading() {
+  navSearchSuggestions.innerHTML = `
+    <div class="search-loading">
+      <div class="spinner"></div>
+      <p>Searching...</p>
     </div>
-    <div class="results-grid">
   `;
-  
-  data.topics.forEach(topic => {
-    html += `
-      <div class="result-card" onclick="navigateToTopic('${topic.url}')">
-        <div class="result-icon">${getCategoryIcon(topic.category)}</div>
-        <h4>${topic.title}</h4>
-        <span class="result-category">${topic.category}</span>
-      </div>
-    `;
-  });
-  
-  html += '</div>';
-  searchResults.innerHTML = html;
-  searchResults.style.display = 'block';
+  showSearchDropdown();
 }
 
-// Hide suggestions when clicking outside
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.search-container')) {
-    searchSuggestions.style.display = 'none';
-    searchResults.style.display = 'none';
-  }
-});
+// Show no results
+function showNoResults() {
+  navSearchSuggestions.innerHTML = `
+    <div class="no-results">
+      <div class="no-results-icon">🔍</div>
+      <p>No topics found</p>
+      <small>Try searching for: brain, heart, muscles</small>
+    </div>
+  `;
+  showSearchDropdown();
+}
 
-
+// Show error
+function showSearchError() {
+  navSearchSuggestions.innerHTML = `
+    <div class="no-results">
+      <div class="no-results-icon">⚠️</div>
+      <p>Search failed</p>
+      <small>Please try again</small>
+    </div>
+  `;
+  showSearchDropdown();
+}
